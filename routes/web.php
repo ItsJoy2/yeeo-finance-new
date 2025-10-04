@@ -17,7 +17,7 @@ use App\Http\Controllers\admin\WithdrawSettingsController;
 use App\Http\Controllers\admin\ReferralsSettingsController;
 
 Route::get('/', function () {
-    return redirect()->route('user.index');
+    return redirect()->route('user.dashboard');
 });
 
 Route::get('admin/dashboard',[AdminDashboardController::class,'index'])->middleware(['auth', 'verified'])->name('admin.dashboard');

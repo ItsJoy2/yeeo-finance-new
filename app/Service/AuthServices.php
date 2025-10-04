@@ -156,7 +156,7 @@ class AuthServices
         ]);
 
         // Send email verification
-        $user->notify(new VerifyEmail());
+        // $user->notify(new VerifyEmail());
 
         if ($request->expectsJson()) {
             return response()->json([

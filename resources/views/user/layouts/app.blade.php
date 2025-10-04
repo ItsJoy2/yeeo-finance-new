@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    @php
+        use App\Models\GeneralSetting;
+        $generalSettings = GeneralSetting::first();
+    @endphp
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Corona Admin</title>
+    <title>{{ $generalSettings->app_name ?? 'Edulife ' }}</title>
     @include('user.layouts.partials.__style')
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="assets/images/favicon.png" />
+    @if($generalSettings && $generalSettings->favicon)
+            <link rel="icon" type="image/png" href="{{ asset('storage/' . $generalSettings->favicon) }}">
+            <link rel="apple-touch-icon" href="{{ asset('storage/' . $generalSettings->favicon) }}">
+        @else
+            <link rel="icon" type="image/png" href="{{ asset('default-favicon.png') }}">
+            <link rel="apple-touch-icon" href="{{ asset('default-favicon.png') }}">
+    @endif
+    {{-- <link rel="shortcut icon" href="assets/images/favicon.png" /> --}}
   </head>
   <body>
     <div class="container-scroller">
@@ -22,7 +33,7 @@
           <div class="content-wrapper">
 
             @yield('userContent')
-            
+
           <!-- content-wrapper ends -->
           @include('user.layouts.partials.__footer')
         </div>
