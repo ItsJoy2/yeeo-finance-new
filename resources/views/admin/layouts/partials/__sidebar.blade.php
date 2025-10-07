@@ -4,7 +4,7 @@
     <div class="sidebar-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-            <a href="/dashboard" class="logo">
+            <a href="{[route('admin.dashboard')]}" class="logo">
                 @if($generalSettings && $generalSettings->logo)
                     <img src="{{ asset('storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
                 @endif
@@ -29,8 +29,8 @@
             <ul class="nav nav-secondary">
 
                 <!-- Dashboard -->
-                <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
-                    <a href="/dashboard">
+                <li class="nav-item {{ request()->is('admin.dashboard') ? 'active' : '' }}">
+                    <a href="{[route('admin.dashboard')]}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
@@ -38,8 +38,8 @@
 
 
                 <!-- Users -->
-                <li class="nav-item {{ request()->is('users') ? 'active' : '' }}">
-                    <a href="/users">
+                <li class="nav-item {{ request()->is('admin.users') ? 'active' : '' }}">
+                    <a href="{{ route('admin.users.index') }}">
                         <i class="fas fa-users"></i>
                         <p>All Users</p>
                     </a>
@@ -49,16 +49,23 @@
 
 
                 <!-- Plans -->
-                <li class="nav-item {{ Str::contains(request()->path(), 'all-plan') ? 'active' : '' }}">
-                    <a href="/all-plan">
+                <li class="nav-item {{ Str::contains(request()->path(), 'admin.plans.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.plans.index') }}">
                         <i class="fas fa-database"></i>
                         <p>All Plans</p>
+                    </a>
+                </li>
+                <!-- Pairs -->
+                <li class="nav-item {{ Str::contains(request()->path(), 'admin.categories.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.categories.index') }}">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <p>Trading Pairs</p>
                     </a>
                 </li>
 
                 <!-- Withdraw -->
                 <li class="nav-item {{ Str::contains(request()->path(), 'withdraw') ? 'active' : '' }}">
-                    <a href="/withdraw" class="d-flex justify-content-between align-items-center">
+                    <a href="{{ route('admin.withdraw.index') }}" class="d-flex justify-content-between align-items-center">
                         <div>
                             <i class="fas fa-money-check-alt"></i>
                             <p class="m-0">Withdraw</p>
@@ -74,7 +81,7 @@
 
 
                     <li class="nav-item {{ Str::contains(request()->path(), 'deposit') ? 'active' : '' }}">
-                    <a href="/deposit" class="d-flex justify-content-between align-items-center">
+                    <a href="{{ route('admin.deposit.index') }}" class="d-flex justify-content-between align-items-center">
                         <div>
                             <i class="fas fa-money-check-alt"></i>
                             <p class="m-0">Deposit</p>
@@ -84,15 +91,15 @@
 
 
                 <!-- Transactions -->
-                <li class="nav-item {{ request()->is('transactions') ? 'active' : '' }}">
-                    <a href="/transactions">
+                <li class="nav-item {{ Str::contains(request()->path(), 'transactions') ? 'active' : '' }}">
+                    <a href="{{ route('admin.transactions.index') }}">
                         <i class="fas fa-money-check"></i>
                         <p>Transactions</p>
                     </a>
                 </li>
 
                 <!-- Clubs -->
-                <li class="nav-item {{ Str::contains(request()->path(), 'clubs') ? 'active' : '' }}"><a data-bs-toggle="collapse" href="#clubsMenu">
+                {{-- <li class="nav-item {{ Str::contains(request()->path(), 'clubs') ? 'active' : '' }}"><a data-bs-toggle="collapse" href="#clubsMenu">
                         <i class="fas fa-star"></i>
                         <p>Clubs</p>
                         <span class="caret"></span>
@@ -100,18 +107,18 @@
                     <div class="collapse {{ Str::contains(request()->path(), 'clubs') ? 'show' : '' }}" id="clubsMenu">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="{{ route('clubs.index') }}">
+                                <a href="{{ route('admin.clubs.index') }}">
                                     <span class="sub-item {{ Str::contains(request()->path(), 'clubs') ? 'active' : '' }}">All Clubs</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('clubs.create') }}">
+                                <a href="{{ route('admin.clubs.create') }}">
                                     <span class="sub-item {{ Str::contains(request()->path(), 'clubs/create') ? 'active' : '' }}">Create Club</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
 
 
                 <!-- KYC -->
@@ -121,7 +128,7 @@
                 @endphp
 
                 <li class="nav-item {{ Str::contains(request()->path(), 'kyc') ? 'active' : '' }}">
-                    <a href="/kyc" class="d-flex justify-content-between align-items-center">
+                    <a href="{{ route('admin.kyc.index') }}" class="d-flex justify-content-between align-items-center">
                         <div>
                             <i class="fas fa-crown"></i>
                             <p class="m-0">KYC</p>
@@ -154,7 +161,7 @@
                 </li> --}}
 
                 <!-- Settings -->
-                <li class="nav-item nav-item {{ Str::contains(request()->path(), 'holidays') ? 'active' : '' }}">
+                <li class="nav-item nav-item {{ Str::contains(request()->path(), 'settings') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#settings">
                         <i class="fas fa-cog"></i>
                         <p>Settings</p>
@@ -163,9 +170,9 @@
                     <div class="collapse" id="settings">
                         <ul class="nav nav-collapse">
                             {{-- <li><a href="/holidays"><span class="sub-item {{ Str::contains(request()->path(), 'holidays') ? 'active' : '' }}">Holidays Setting</span></a></li> --}}
-                            <li><a href="/withdraws/settings"><span class="sub-item {{ Str::contains(request()->path(), 'holidays') ? 'active' : '' }}">Withdraws Settings</span></a></li>
-                            <li><a href="/founder-bonus"><span class="sub-item">Founder Bonus</span></a></li>
-                            <li><a href="/general-settings"><span class="sub-item">General Settings</span></a></li>
+                            {{-- <li><a href="/withdraws/settings"><span class="sub-item {{ Str::contains(request()->path(), 'holidays') ? 'active' : '' }}">Withdraws Settings</span></a></li> --}}
+                            {{-- <li><a href="/founder-bonus"><span class="sub-item">Founder Bonus</span></a></li> --}}
+                            <li class="{{ Str::contains(request()->path(), 'holidays') ? 'active' : '' }}"><a href="{{ route('admin.general.settings') }}"><span class="sub-item">General Settings</span></a></li>
                         </ul>
                     </div>
                 </li>

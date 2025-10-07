@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmailController;
-use App\Http\Controllers\user\UserController;
 use App\Http\Controllers\user\AuthController;
+use App\Http\Controllers\user\UserController;
+use App\Http\Controllers\user\PackagesController;
 use App\Http\Controllers\user\DashboardController;
+use App\Http\Controllers\user\TransactionsController;
 
 Route::prefix('user')->middleware('auth')->group(function () {
 
@@ -14,8 +16,17 @@ Route::prefix('user')->middleware('auth')->group(function () {
 
     Route::post('logout', [AuthController::class, 'logout'])->name('user.logout');
 
+    // activation
     Route::get('activation', [UserController::class, 'showActivation'])->name('user.activation');
     Route::post('account/activate', [UserController::class, 'activeAccount'])->name('user.account.activate');
+
+    // package
+    Route::get('packages', [PackagesController::class, 'index'])->name('user.packages');
+    Route::post('buy-package', [PackagesController::class, 'buyPackage'])->name('user.packages.buy');
+    Route::get('investment-history', [PackagesController::class, 'InvestHistory'])->name('user.Investment.history');
+
+    // Transactions
+    Route::get('transactions', [TransactionsController::class, 'transactions'])->name('user.transactions');
 
 
 

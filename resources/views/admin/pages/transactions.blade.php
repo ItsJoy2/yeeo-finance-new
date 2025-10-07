@@ -8,12 +8,12 @@
         <div class="card-title">Transactions History</div>
     </div>
     <div class="card-body table-responsive">
-        <form action="{{ route('transactions.index') }}" method="GET" class="mb-3 d-flex align-items-center gap-2 flex-wrap">
+        <form action="{{ route('admin.transactions.index') }}" method="GET" class="mb-3 d-flex align-items-center gap-2 flex-wrap">
             <input type="text" name="email" class="form-control w-auto" placeholder="Search by email" value="{{ request('email') }}">
 
             <select name="remark" class="form-select w-auto">
                 <option value="">All Types</option>
-                @foreach(['withdrawal','transfer','referral_commission','package_purchased'] as $type)
+                @foreach(['deposit','withdrawal','transfer','account_activation', 'activation_bonus', 'trade_bonus','pnl_bonus', 'package_purchased'] as $type)
                     <option value="{{ $type }}" {{ request('remark') == $type ? 'selected' : '' }}>
                         {{ ucwords(str_replace('_', ' ', $type)) }}
                     </option>
@@ -23,12 +23,12 @@
             <button type="submit" class="btn btn-primary">Search</button>
 
             @if(request()->has('email') || request()->has('remark'))
-                <a href="{{ route('transactions.index') }}" class="btn btn-outline-secondary">Reset</a>
+                <a href="{{ route('admin.transactions.index') }}" class="btn btn-outline-secondary">Reset</a>
             @endif
         </form>
 
-        <table class="table table-striped table-hover table-head-bg-primary mt-4">
-            <thead>
+        <table class="table table-striped table-hover mt-4">
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Username</th>

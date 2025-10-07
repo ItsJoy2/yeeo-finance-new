@@ -1,9 +1,7 @@
 @extends('user.layouts.app')
 
 @section('userContent')
-<div class="main-panel">
-  <div class="content-wrapper">
-    <div class="page-header">
+<div class="page-header">
       <h2 class="page-title">Activation</h2>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -79,6 +77,4 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
 @endsection

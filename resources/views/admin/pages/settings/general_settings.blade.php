@@ -17,10 +17,10 @@
                 <!-- Left Sidebar Navigation -->
                 <div class="col-md-4">
                     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button class="nav-link active" id="v-pills-founder-tab" data-bs-toggle="pill" data-bs-target="#v-pills-founder" type="button" role="tab" aria-controls="v-pills-founder" aria-selected="true">
+                        {{-- <button class="nav-link active" id="v-pills-founder-tab" data-bs-toggle="pill" data-bs-target="#v-pills-founder" type="button" role="tab" aria-controls="v-pills-founder" aria-selected="true">
                             <i class="fas fa-user-tie me-2"></i> Founder Settings
-                        </button>
-                        <button class="nav-link" id="v-pills-app-tab" data-bs-toggle="pill" data-bs-target="#v-pills-app" type="button" role="tab" aria-controls="v-pills-app" aria-selected="false">
+                        </button> --}}
+                        <button class="nav-link active" id="v-pills-app-tab" data-bs-toggle="pill" data-bs-target="#v-pills-app" type="button" role="tab" aria-controls="v-pills-app" aria-selected="true">
                             <i class="fas fa-cog me-2"></i> App Settings
                         </button>
                     </div>
@@ -31,7 +31,7 @@
                     <div class="tab-content" id="v-pills-tabContent">
 
                         <!-- Founder Settings Tab -->
-                        <div class="tab-pane fade show active" id="v-pills-founder" role="tabpanel" aria-labelledby="v-pills-founder-tab">
+                        {{-- <div class="tab-pane fade show active" id="v-pills-founder" role="tabpanel" aria-labelledby="v-pills-founder-tab">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title"><i class="fas fa-user-tie me-2"></i> Founder Settings</h5>
@@ -51,10 +51,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- App Settings Tab -->
-                        <div class="tab-pane fade" id="v-pills-app" role="tabpanel" aria-labelledby="v-pills-app-tab">
+                        <div class="tab-pane fade  show active" id="v-pills-app" role="tabpanel" aria-labelledby="v-pills-app-tab">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title"><i class="fas fa-cog me-2"></i> App Settings</h5>

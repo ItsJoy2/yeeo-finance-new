@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\user;
 
 use App\Models\User;
 use App\Models\Transactions;
@@ -24,28 +24,18 @@ class TransactionsController extends Controller
     public function transactions(Request $request)
     {
         $keyword = $request->get('keyword');
+
+        $query = Transactions::where('user_id', $request->user()->id);
+
         if ($keyword) {
-            $transactions = Transactions::where('user_id', $request->user()->id)->where('remark', '=', $keyword)->orderBy('id', 'desc')->paginate(10);
-            return response()->json([
-                'status' => true,
-                'data' => $transactions->items(),
-                'total' => $transactions->total(),
-                'current_page' => $transactions->currentPage(),
-                'last_page' => $transactions->lastPage(),
-                'per_page' => $transactions->perPage(),
-            ]);
+            $query->where('remark', '=', $keyword);
         }
-        $transactions = Transactions::where('user_id', $request->user()->id)->orderBy('id', 'desc')->paginate(10);
-        return response()->json([
-            'status' => true,
-            'data' => $transactions->items(),
-            'total' => $transactions->total(),
-            'last_page' => $transactions->lastPage(),
-            'current_page' => $transactions->currentPage(),
-            'per_page' => $transactions->perPage(),
-            'from' => $transactions->firstItem(),
-        ]);
+
+        $transactions = $query->orderBy('id', 'desc')->paginate(15);
+
+        return view('user.pages.transactions.index', compact('transactions', 'keyword'));
     }
+
 
 
 

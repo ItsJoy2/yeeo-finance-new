@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Package;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 
 class PlansController extends Controller
@@ -22,9 +23,9 @@ class PlansController extends Controller
             $query = Package::query();
 
             if ($filter === 'active') {
-                $query->where('active', 1);
+                $query->where('status', 'active');
             } elseif ($filter === 'inactive') {
-                $query->where('active', 0);
+                $query->where('status', 'inactive');
             }
 
             return $query->paginate(10);
@@ -39,7 +40,9 @@ class PlansController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.plan.create');
+        $categories = Category::where('status', 'active')->get();
+
+        return view('admin.pages.plan.create', compact('categories'));
     }
 
     /**
@@ -48,19 +51,41 @@ class PlansController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'min_amount' => 'required|numeric|min:0',
-            'max_amount' => 'required|numeric|gte:min_amount',
-            'interest_rate' => 'required|numeric|min:0|max:100',
-            'duration' => 'nullable|integer|min:0',
-            'return_type' => 'required|in:daily,weekly,monthly',
-            'active' => 'required|boolean',
+            'category_id'      => 'required|exists:categories,id',
+            'plan_name'        => 'required|string|max:255',
+            'image'            => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'min_investment'   => 'required|numeric|min:0',
+            'max_investment'   => 'required|numeric|gte:min_investment',
+            'return_type'      => 'required|in:daily,weekly,monthly',
+            'duration'         => 'nullable|integer|min:1',
+            'pnl_return'       => 'required|numeric|min:0',
+            'pnl_bonus'   => 'required|numeric|min:0',
+            'status'           => 'required|in:active,inactive',
         ]);
 
-        Package::create($request->all());
+        $data = $request->only([
+            'category_id',
+            'plan_name',
+            'min_investment',
+            'max_investment',
+            'return_type',
+            'duration',
+            'pnl_return',
+            'pnl_bonus',
+            'status'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('plan_images', 'public');
+        }
+
+        Package::create($data);
+
         $this->clearPackageCache();
-        return redirect()->route('all-plan.index')->with('success', 'Plan created successfully.');
+
+        return redirect()->route('admin.plans.index')->with('success', 'Plan created successfully.');
     }
+
 
 
     /**
@@ -77,43 +102,47 @@ class PlansController extends Controller
     public function edit($id)
     {
         $plan = Package::findOrFail($id);
-        return view('admin.pages.plan.edit', compact('plan'));
+        $categories = Category::where('status', 'active')->get();
+
+        return view('admin.pages.plan.edit', compact('plan', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'amount' => 'required|numeric|min:0',
-        'refer_bonus' => 'required|numeric|min:0',
-        'active' => 'required|boolean',
-        'icon' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-    ]);
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'category_id'      => 'required|exists:categories,id',
+            'plan_name'        => 'required|string|max:255',
+            'image'            => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'min_investment'   => 'required|numeric|min:0',
+            'max_investment'   => 'required|numeric|gte:min_investment',
+            'return_type'      => 'required|in:daily,weekly,monthly',
+            'duration'         => 'nullable|integer|min:1',
+            'pnl_return'       => 'required|numeric|min:0',
+            'pnl_bonus'   => 'required|numeric|min:0',
+            'status'           => 'required|in:active,inactive',
+        ]);
 
-    $plan = Package::findOrFail($id);
+        $plan = Package::findOrFail($id);
 
-    // Update text fields
-    $plan->name = $request->name;
-    $plan->amount = $request->amount;
-    $plan->refer_bonus = $request->refer_bonus;
-    $plan->active = $request->active;
+        $data = $request->only([
+            'category_id', 'plan_name', 'min_investment', 'max_investment',
+            'return_type', 'duration', 'pnl_return', 'pnl_bonus', 'status'
+        ]);
 
-    // Handle file upload
-    if ($request->hasFile('icon')) {
-        $file = $request->file('icon');
-        $path = $file->store('plan_icons', 'public');
-        $plan->icon = $path;
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('plan_images', 'public');
+        }
+
+        $plan->update($data);
+
+        $this->clearPackageCache();
+
+        return redirect()->route('admin.plans.index')->with('success', 'Plan updated successfully.');
     }
 
-    $plan->save();
-
-    $this->clearPackageCache();
-
-    return redirect()->route('all-plan.index')->with('success', 'Plan updated successfully.');
-}
 
 
     /**

@@ -62,7 +62,7 @@ class KycController extends Controller
 
         Cache::flush();
 
-        return redirect()->route('kyc.index')->with('success', 'KYC status updated successfully.');
+        return redirect()->route('admin.kyc.index')->with('success', 'KYC status updated successfully.');
     }
 
     /**

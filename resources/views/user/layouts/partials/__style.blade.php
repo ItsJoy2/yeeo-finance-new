@@ -11,4 +11,5 @@
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
+    <link rel="stylesheet" href="{{ asset('assets/user/css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/css/style.css') }}">

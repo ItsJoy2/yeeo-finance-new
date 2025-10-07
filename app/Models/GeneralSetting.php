@@ -14,7 +14,6 @@ protected $table = 'general_settings';
         'app_name',
         'logo',
         'favicon',
-        'total_founder',
-        'available_founder_slot',
+        'referral_bonus',
     ];
 }

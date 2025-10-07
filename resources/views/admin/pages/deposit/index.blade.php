@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </form> --}}
-            <form method="GET" action="{{ route('deposit.index') }}" class="d-flex justify-content-end mb-3" style="max-width: 300px; margin-left: auto;">
+            <form method="GET" action="{{ route('admin.deposit.index') }}" class="d-flex justify-content-end mb-3" style="max-width: 300px; margin-left: auto;">
                 <div class="input-group input-group-sm">
                     <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ request('search') }}">
                     <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>

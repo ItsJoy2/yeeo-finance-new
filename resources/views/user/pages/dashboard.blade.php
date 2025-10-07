@@ -31,14 +31,18 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">$12.34</h3>
-                          <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+                          <h3 class="mb-0">${{ number_format($user->funding_wallet, 2) }}</h3>
+                          {{-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> --}}
                         </div>
                       </div>
                       <div class="col-3">
-                        <div class="icon icon-box-success ">
+                        {{-- <div class="icon icon-box-success ">
                           <span class="mdi mdi-arrow-top-right icon-item"></span>
+                        </div> --}}
+                        <div class="icon icon-box-success">
+                            <span class="mdi mdi-wallet icon-item"></span>
                         </div>
+
                       </div>
                     </div>
                     <h6 class="text-muted font-weight-normal">Account Balance</h6>
@@ -51,13 +55,53 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">$17.34</h3>
-                          <p class="text-success ml-2 mb-0 font-weight-medium">+11%</p>
+                          <h3 class="mb-0">${{ number_format($user->spot_wallet, 2) }}</h3>
+                          {{-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> --}}
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="icon icon-box-success ">
+                          <span class="mdi mdi-cash-multiple icon-item"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <h6 class="text-muted font-weight-normal">Spot Balance</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="mb-0">{{ number_format($user->token_wallet, 2) }}</h3>
+                          {{-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> --}}
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="icon icon-box-success ">
+                          <span class="mdi mdi-bitcoin icon-item"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <h6 class="text-muted font-weight-normal">Token Wallet</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="mb-0">${{ number_format($dashboard['earningBalance'], 2) }}</h3>
+                          {{-- <p class="text-success ml-2 mb-0 font-weight-medium">+11%</p> --}}
                         </div>
                       </div>
                       <div class="col-3">
                         <div class="icon icon-box-success">
-                          <span class="mdi mdi-arrow-top-right icon-item"></span>
+                          <span class="mdi mdi-bank icon-item"></span>
                         </div>
                       </div>
                     </div>
@@ -65,7 +109,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+              {{-- <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
@@ -76,12 +120,32 @@
                         </div>
                       </div>
                       <div class="col-3">
-                        <div class="icon icon-box-danger">
-                          <span class="mdi mdi-arrow-bottom-left icon-item"></span>
+                        <div class="icon icon-box-success">
+                          <span class="mdi mdi-trending-down icon-item"></span>
                         </div>
                       </div>
                     </div>
                     <h6 class="text-muted font-weight-normal">Monthly ROI</h6>
+                  </div>
+                </div>
+              </div> --}}
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="mb-0">${{ number_format($dashboard['totalWithdraw'], 2) }}</h3>
+                          {{-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> --}}
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="icon icon-box-warning ">
+                          <span class="mdi mdi-arrow-up-bold-box icon-item text-warning"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <h6 class="text-muted font-weight-normal">Total Withdraw</h6>
                   </div>
                 </div>
               </div>
@@ -91,17 +155,17 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">$31.53</h3>
-                          <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+                          <h3 class="mb-0">${{ number_format($dashboard['totalTransfer'], 2) }}</h3>
+                          {{-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> --}}
                         </div>
                       </div>
                       <div class="col-3">
-                        <div class="icon icon-box-success ">
-                          <span class="mdi mdi-arrow-top-right icon-item"></span>
+                        <div class="icon icon-box-danger ">
+                          <span class="mdi mdi-swap-horizontal icon-item text-danger"></span>
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Total Withdraw</h6>
+                    <h6 class="text-muted font-weight-normal">Total Transfer</h6>
                   </div>
                 </div>
               </div>

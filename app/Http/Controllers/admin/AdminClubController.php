@@ -43,7 +43,7 @@ class AdminClubController extends Controller
 
         Club::create($data);
 
-        return redirect()->route('clubs.index')->with('success', 'Club created successfully.');
+        return redirect()->route('admin.clubs.index')->with('success', 'Club created successfully.');
     }
 
     public function edit(Club $club)
@@ -75,7 +75,7 @@ class AdminClubController extends Controller
 
         $club->update($data);
 
-        return redirect()->route('clubs.index')->with('success', 'Club updated successfully.');
+        return redirect()->route('admin.clubs.index')->with('success', 'Club updated successfully.');
     }
 
     public function destroy(Club $club)
@@ -85,7 +85,7 @@ class AdminClubController extends Controller
         }
         $club->delete();
 
-        return redirect()->route('clubs.index')->with('success', 'Club deleted successfully.');
+        return redirect()->route('admin.clubs.index')->with('success', 'Club deleted successfully.');
     }
 
     public function toggleStatus(Club $club)

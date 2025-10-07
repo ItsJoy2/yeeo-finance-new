@@ -7,7 +7,7 @@
         </div>
 
         <div class="card-body table-responsive">
-            <form method="GET" action="{{ route('kyc.index') }}" class="mb-4">
+            <form method="GET" action="{{ route('admin.kyc.index') }}" class="mb-4">
                 <div class="row align-items-end">
                     <div class="col-md-4">
                         <label for="status">Filter by Status</label>
@@ -20,12 +20,12 @@
                     </div>
                     <div class="col-md-3 mt-md-0 mt-2">
                         <button class="btn btn-primary" type="submit">Filter</button>
-                        <a href="{{ route('kyc.index') }}" class="btn btn-secondary">Reset</a>
+                        <a href="{{ route('admin.kyc.index') }}" class="btn btn-secondary">Reset</a>
                     </div>
                 </div>
             </form>
 
-            <table class="table table-striped table-bordered mt-3">
+            <table class="table table-striped table-hover">
                 <thead class="thead-dark">
                 <tr>
                     <th>#</th>
@@ -63,7 +63,7 @@
                             </span>
                         </td>
                         <td>
-                            <a href="{{ route('kyc.edit', $kyc->id) }}" class="btn btn-sm btn-primary">
+                            <a href="{{ route('admin.kyc.edit', $kyc->id) }}" class="btn btn-sm btn-primary">
                                 Review
                             </a>
                         </td>

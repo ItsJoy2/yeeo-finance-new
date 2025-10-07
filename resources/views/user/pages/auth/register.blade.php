@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
+    @php
+        use App\Models\GeneralSetting;
+        $generalSettings = GeneralSetting::first();
+    @endphp
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Corona Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ $generalSettings->app_name ?? 'Edulife ' }}</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('assets/user/vendors/mdi/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/vendors/css/vendor.bundle.base.css') }}">
@@ -56,7 +59,7 @@
                         <label>Confirm Password</label>
                         <input type="password" class="form-control p_input" name="password_confirmation">
                     </div>
-                    
+
                     <div class="form-group">
                         <label>Referral Code (optional)</label>
                         <input type="text" class="form-control p_input" name="referCode" value="{{ old('referCode') }}">

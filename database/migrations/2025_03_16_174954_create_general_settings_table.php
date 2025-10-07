@@ -17,13 +17,17 @@ return new class extends Migration
             $table->string('app_name');
             $table->string('logo')->nullable();
             $table->string('favicon')->nullable();
+            $table->decimal('referral_bonus', 20, 2)->default(0);
             $table->timestamps();
         });
 
         DB::table('general_settings')->insert([
             'app_name' => 'Edulife',
             'logo' => 'Edulife',
-            'favicon' => 'null'
+            'favicon' => 'null',
+            'referral_bonus' => 10,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 

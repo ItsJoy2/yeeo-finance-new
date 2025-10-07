@@ -85,7 +85,7 @@ class AuthServices
                 ]);
             }
 
-            return redirect()->route('user.index')->with('success', 'Logged in successfully');
+            return redirect()->route('user.dashboard')->with('success', 'Logged in successfully');
         }
 
         if ($request->expectsJson()) {

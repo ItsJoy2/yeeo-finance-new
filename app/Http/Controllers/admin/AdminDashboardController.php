@@ -42,9 +42,9 @@ class AdminDashboardController extends Controller
                 'withdrawChargeAmount' => $withdrawChargeAmount,
 
                 // Investment
-                'totalInvestmentAmount' =>Founder::sum('investment'),
-                'runningInvestmentAmount' => Founder::where('status', 1)->sum('investment'),
-                'canceledInvestmentAmount' => Founder::where('status', 0)->sum('investment'),
+                // 'totalInvestmentAmount' =>Founder::sum('investment'),
+                // 'runningInvestmentAmount' => Founder::where('status', 1)->sum('investment'),
+                // 'canceledInvestmentAmount' => Founder::where('status', 0)->sum('investment'),
 
 
 

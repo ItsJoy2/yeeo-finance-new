@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('kyc.update', $kyc->id) }}">
+            <form method="POST" action="{{ route('admin.kyc.update', $kyc->id) }}">
                 @csrf
                 @method('PUT')
 
@@ -58,7 +58,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="fas fa-check-circle me-1"></i> Update KYC
                     </button>
-                    <a href="{{ route('kyc.index') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('admin.kyc.index') }}" class="btn btn-outline-secondary">
                         <i class="fas fa-arrow-left me-1"></i> Back to List
                     </a>
                 </div>

@@ -2,7 +2,7 @@
 @section('content')
  <div class="p-5">
      <h4>Edit Plan</h4>
-     <form method="POST" action="{{ route('all-plan.update', $plan->id) }}" enctype="multipart/form-data">
+     <form method="POST" action="{{ route('admin.plans.update', $plan->id) }}" enctype="multipart/form-data">
          @csrf
          @method('PUT')
          @include('admin.pages.plan.form', ['plan' => $plan])
@@ -10,3 +10,26 @@
      </form>
  </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const returnTypeSelect = document.getElementById('returnTypeSelect');
+        const durationLabel = document.getElementById('durationLabel');
+
+        function updateDurationLabel() {
+            const selectedValue = returnTypeSelect.value;
+            if (selectedValue === 'monthly') {
+                durationLabel.textContent = 'Duration (in months)';
+            } else if (selectedValue === 'daily') {
+                durationLabel.textContent = 'Duration (in days)';
+            } else {
+                durationLabel.textContent = 'Duration';
+            }
+        }
+
+        // Initial label update (in case of edit form)
+        updateDurationLabel();
+
+        // Update on change
+        returnTypeSelect.addEventListener('change', updateDurationLabel);
+    });
+</script>

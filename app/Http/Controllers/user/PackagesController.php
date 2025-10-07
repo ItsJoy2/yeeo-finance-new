@@ -1,16 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\user;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Founder;
 use App\Models\Package;
-use App\Models\referrals_settings;
-use App\Service\TransactionService;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\JsonResponse;
+use App\Models\Category;
+use App\Models\Investor;
+use App\Models\Transactions;
 use Illuminate\Http\Request;
+use App\Models\GeneralSetting;
+use Illuminate\Support\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use App\Service\TransactionService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class PackagesController extends Controller
 {
@@ -21,115 +26,134 @@ class PackagesController extends Controller
         $this->transactionService = $transactionService;
     }
 
-    public function getPackages():JsonResponse
+    public function index()
     {
-        $packages = Package::where('active', 1)->get();
-        return response()->json([
-            'status' => true,
-            'data' => $packages,
-        ]);
+        $categories = Category::with(['packages' => function ($q) {
+            $q->where('status', 'active');
+        }])->where('status', 'active')->get();
+
+        return view('user.pages.package.index', compact('categories'));
     }
 
-
-    public function BuyPackage($id, Request $request): JsonResponse
+    // Buy package and invest
+    public function buyPackage(Request $request)
     {
+        $request->validate([
+            'package_id' => 'required|integer|exists:packages,id',
+            'amount' => 'required|numeric|min:0.01',
+        ]);
 
-         $package = Package::findOrFail($id);
-        $amount = $package->amount;
         $user = $request->user();
-        $packageName = $package->name;
 
-        if ($user->is_block == 1) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Sorry, you cannot make a transaction because it is blocked'
-            ], 401);
+        if (!$user->is_active) {
+            return back()->with('error', 'Your account is not active. You cannot invest.');
         }
 
-        if ($user->main_wallet < $amount) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Insufficient funds',
-            ]);
+        if ($user->is_block) {
+            return back()->with('error', 'Your account is blocked. You cannot invest.');
+        }
+
+        $package = Package::findOrFail($request->package_id);
+
+        if ($request->amount < $package->min_investment) {
+            return back()->with('error', "Minimum investment amount is $ {$package->min_investment}");
+        }
+
+        if ($request->amount > $package->max_investment) {
+            return back()->with('error', "Maximum investment amount is $ {$package->max_investment}");
+        }
+
+        if ($user->funding_wallet < $request->amount) {
+            return back()->with('error', 'Insufficient funds in funding wallet');
         }
 
         DB::beginTransaction();
 
         try {
-            $user->main_wallet -= $amount;
-            $user->is_founder = 1;
-            $user->save();
 
-            $this->transactionService->addNewTransaction(
-                $user->id,
-                $amount,
-                "package_purchased",
-                "-",
-                "Purchased $packageName package for $$amount"
-            );
+            $amount = $request->amount;
+            $expectedReturn = round($amount * ($package->pnl_return / 100), 8);
+            $startDate = Carbon::now();
 
-            Founder::create([
+            $nextReturnDate = $package->return_type === 'daily'
+                ? $startDate->copy()->addDay()
+                : $startDate->copy()->addMonth();
+
+            $endDate = null;
+            if ($package->duration > 0) {
+                $endDate = $package->return_type === 'daily'
+                    ? $startDate->copy()->addDays($package->duration)
+                    : $startDate->copy()->addMonths($package->duration);
+            }
+
+            Investor::create([
                 'user_id' => $user->id,
-                'package_name' => $packageName,
                 'package_id' => $package->id,
-                'investment' => $amount,
+                'amount' => $amount,
+                'expected_return' => $expectedReturn,
+                'return_type' => $package->return_type,
+                'duration' => $package->duration,
+                'start_date' => $startDate->toDateString(),
+                'end_date' => $endDate ? $endDate->toDateString() : null,
+                'next_return_date' => $nextReturnDate->toDateString(),
+                'received_count' => 0,
+                'status' => 'running',
             ]);
 
-            $referrer = $user->referredBy()->first();
-            if ($referrer) {
-                // $bonus = $amount * $package->refer_bonus / 100;
-                $bonus =$package->refer_bonus;
-                $referrer->increment('profit_wallet', $bonus);
+            $user->decrement('funding_wallet', $amount);
 
-                $this->transactionService->addNewTransaction(
-                    $referrer->id,
-                    $bonus,
-                    "referral_commission",
-                    "+",
-                    "Referral Bonus from $user->name"
-                );
+            Transactions::create([
+                'transaction_id' => Transactions::generateTransactionId(),
+                'user_id' => $user->id,
+                'amount' => $amount,
+                'remark' => "package_purchased",
+                'type' => '-',
+                'status' => 'Paid',
+                'details' => "Invested in plan: {$package->plan_name}",
+                'charge' => 0,
+            ]);
+
+            $generalSetting = GeneralSetting::first();
+            $referralBonusPercent = $generalSetting->referral_bonus;
+            if ($referralBonusPercent > 0 && $user->refer_by) {
+                $referrer = User::find($user->refer_by);
+                if ($referrer) {
+                    $bonusAmount = round($amount * ($referralBonusPercent / 100), 5);
+                    $referrer->increment('spot_wallet', $bonusAmount);
+
+                    Transactions::create([
+                        'transaction_id' => Transactions::generateTransactionId(),
+                        'user_id' => $referrer->id,
+                        'amount' => $bonusAmount,
+                        'remark' => "trade_bonus",
+                        'type' => '+',
+                        'status' => 'Paid',
+                        'details' => "Referral bonus from {$user->name}'s investment",
+                        'charge' => 0,
+                    ]);
+                }
             }
 
             DB::commit();
 
-            Cache::forget('admin_dashboard_data');
-            Cache::forget('packages_active_page_1');
-            Cache::forget('packages_inactive_page_1');
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Package purchased successfully',
-                'wallet_balance' => $user->main_wallet,
-            ]);
+            return redirect()->route('user.packages')
+                ->with('success', 'Investment successful');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json([
-                'status' => false,
-                'message' => 'Something went wrong! ' . $e->getMessage(),
-            ], 500);
+
+            return back()->withErrors('Investment failed: ' . $e->getMessage());
         }
     }
 
-
-    public function InvestHistory(Request $request): JsonResponse{
-        $user = $request->user();
-        $investorData = Founder::where('user_id', $user->id)
-            ->join('package', 'investors.package_id', '=', 'package.id')
-            ->select('investors.*', 'package.interest_rate')
-            ->paginate(10);
-        $investorData->getCollection()->transform(function ($item) {
-            $item->daily_roi = ($item->interest_rate * $item->investment) / 100;
-            return $item;
-        });
-        return response()->json([
-            'status' => true,
-            'data' => $investorData->items(),
-            'total' => $investorData->total(),
-            'current_page' => $investorData->currentPage(),
-            'last_page' => $investorData->lastPage(),
-
-        ]);
+    public function InvestHistory()
+     {
+        $investors = auth()->user()
+        ->investors()
+        ->with('package.category')
+        ->latest()
+        ->paginate(5);
+        return view('user.pages.package.my-investment', compact('investors'));
     }
 
 }

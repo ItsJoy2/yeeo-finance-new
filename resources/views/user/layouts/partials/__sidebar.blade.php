@@ -80,8 +80,8 @@
             </a>
         </li>
 
-          <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="#invest-plan" aria-expanded="false" aria-controls="invest-plan">
+          <li class="nav-item menu-items {{ request()->routeIs('user.packages') ? 'active' : '' }}">
+            <a class="nav-link " data-toggle="collapse" href="#invest-plan" aria-expanded="false" aria-controls="invest-plan">
               <span class="menu-icon">
                 <i class="mdi mdi-package"></i>
               </span>
@@ -90,8 +90,8 @@
             </a>
             <div class="collapse" id="invest-plan">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/users/plans.html">All Plans</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/users/myinvest.html">My Investment</a></li>
+                <li class="nav-item {{ request()->routeIs('user.packages') ? 'active' : '' }}"> <a class="nav-link" href="{{ route('user.packages') }}">All Plans</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('user.Investment.history') }}">My Investment</a></li>
               </ul>
             </div>
           </li>
@@ -127,8 +127,8 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item menu-items">
-            <a class="nav-link" href="#">
+          <li class="nav-item menu-items  {{ request()->routeIs('user.transactions') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('user.transactions') }}">
               <span class="menu-icon">
                 <i class="mdi mdi-square-inc-cash"></i>
               </span>

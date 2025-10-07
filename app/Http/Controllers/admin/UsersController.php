@@ -13,21 +13,23 @@ class UsersController extends Controller
         $filter = $request->filter;
         $search = $request->search;
 
-        $query = User::query()->where('role', 'user')->withSum('founder', 'investment');
+         $query = User::query()->where('role', 'user')->with('referredBy')->withSum('investors', 'amount');
 
-        switch ($filter) {
-            case 'founder':
-                $query->where('is_founder', 1);
-                break;
-            case 'member':
-                $query->where('is_founder', 0);
-                break;
-            case 'blocked':
-                $query->where('is_block', 1);
-                break;
-            case 'unblocked':
-                $query->where('is_block', 0);
-                break;
+        if ($filter) {
+            switch ($filter) {
+                case 'blocked':
+                    $query->where('is_block', 1);
+                    break;
+                case 'unblocked':
+                    $query->where('is_block', 0);
+                    break;
+                case 'active':
+                    $query->where('is_active', 1);
+                    break;
+                case 'inactive':
+                    $query->where('is_active', 0);
+                    break;
+            }
         }
 
         if (!empty($search)) {
@@ -39,31 +41,32 @@ class UsersController extends Controller
         return view('admin.pages.users.index', compact('users'));
     }
 
+
     public function show($id)
     {
-        $user = User::with(['founder', 'clubs', 'nominee', 'referredBy', 'referrals'])->findOrFail($id);
+        $user = User::with(['referredBy', 'investors'])->findOrFail($id);
 
         return view('admin.pages.users.show', compact('user'));
     }
-public function update(Request $request)
-{
-    $user = User::findOrFail($request->user_id);
+    public function update(Request $request)
+    {
+        $user = User::findOrFail($request->user_id);
 
-    $validated = $request->validate([
-        'name'     => 'required|string|max:255',
-        'email'    => 'required|email|max:255|unique:users,email,' . $user->id,
-        'mobile'   => 'required|string|max:20',
-        'is_block' => 'required|boolean',
-    ]);
+        $validated = $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|max:255|unique:users,email,' . $user->id,
+            'mobile'   => 'required|string|max:20',
+            'is_block' => 'required|boolean',
+        ]);
 
-    $user->name     = $request->name;
-    $user->email    = $request->email;
-    $user->mobile   = $request->mobile;
-    $user->is_block = $request->is_block;
+        $user->name     = $request->name;
+        $user->email    = $request->email;
+        $user->mobile   = $request->mobile;
+        $user->is_block = $request->is_block;
 
-    $user->save();
+        $user->save();
 
-    return redirect()->back()->with('success', 'User updated successfully!');
-}
+        return redirect()->back()->with('success', 'User updated successfully!');
+    }
 
 }

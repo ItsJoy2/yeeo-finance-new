@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        @php
+            use App\Models\GeneralSetting;
+            $generalSettings = GeneralSetting::first();
+        @endphp
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $generalSettings->app_name ?? 'Laravel Admin' }}</title>
-    @php
-        use App\Models\GeneralSetting;
-        $generalSettings = GeneralSetting::first();
-    @endphp
+
     @if($generalSettings && $generalSettings->favicon)
         <link rel="icon" type="image/png" href="{{ asset('storage/' . $generalSettings->favicon) }}">
         <link rel="apple-touch-icon" href="{{ asset('storage/' . $generalSettings->favicon) }}">
