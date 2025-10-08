@@ -36,7 +36,7 @@
                 <td>{{ ucfirst($transaction->details) }}</td>
                 <td>
                     @php
-                        $status = strtolower($transaction->status); // normalize for comparison
+                        $status = strtolower($transaction->status);
 
                         $badgeClass = match($status) {
                             'pending' => 'warning',
