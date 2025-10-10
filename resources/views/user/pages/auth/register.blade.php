@@ -34,35 +34,35 @@
 
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control p_input" name="name" value="{{ old('name') }}">
+                        <input type="text" class="form-control text-white p_input" name="name" value="{{ old('name') }}">
                         @error('name') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" class="form-control p_input" name="email" value="{{ old('email') }}">
+                        <input type="email" class="form-control text-white p_input" name="email" value="{{ old('email') }}">
                         @error('email') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
                     <div class="form-group">
                         <label>Mobile</label>
-                        <input type="text" class="form-control p_input" name="mobile" value="{{ old('mobile') }}">
+                        <input type="text" class="form-control text-white p_input" name="mobile" value="{{ old('mobile') }}">
                         @error('mobile') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" class="form-control p_input" name="password">
+                        <input type="password" class="form-control text-white p_input" name="password">
                         @error('password') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
                     <div class="form-group">
                         <label>Confirm Password</label>
-                        <input type="password" class="form-control p_input" name="password_confirmation">
+                        <input type="password" class="form-control text-white p_input" name="password_confirmation">
                     </div>
 
                     <div class="form-group">
                         <label>Referral Code (optional)</label>
-                        <input type="text" class="form-control p_input" name="referCode" value="{{ old('referCode') }}">
+                        <input type="text" class="form-control text-white p_input" name="referCode" value="{{ old('referCode') }}">
                         @error('referCode') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 

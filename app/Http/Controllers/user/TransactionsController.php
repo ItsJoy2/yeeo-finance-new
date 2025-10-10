@@ -96,6 +96,11 @@ class TransactionsController extends Controller
     //     }
     // }
 
+    public function showWithdrawForm()
+    {
+        $withdrawSettings = withdraw_settings::first();
+        return view('user.pages.withdraw.index', compact('withdrawSettings'));
+    }
     public function withdraw(Request $request)
     {
         $withdrawSettings = withdraw_settings::first();
@@ -105,18 +110,12 @@ class TransactionsController extends Controller
         }
 
         if ($withdrawSettings->status == 0) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Withdrawals are temporarily disabled. Please contact support'
-            ]);
+            return back()->with('error', 'Withdrawals are temporarily disabled. Please contact support.');
         }
 
         $user = $request->user();
         if ($user->is_block == 1) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, your account is blocked. Please contact admin.',
-            ]);
+            return back()->with('error', 'Your account is blocked. Please contact admin.');
         }
 
         $min = $withdrawSettings->min_withdraw;
@@ -133,21 +132,18 @@ class TransactionsController extends Controller
         $finalAmount = $amount - $chargeAmount;
         $wallet = $validatedData['wallet'];
 
-        if ($user->profit_wallet < $amount) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Insufficient balance',
-            ], 400);
+        if ($user->spot_wallet < $amount) {
+            return back()->with('error', 'Insufficient balance.');
         }
 
         $response = Http::post('https://evm.blockmaster.info/api/payout', [
             'amount' => $finalAmount,
-            'type' => 'token',
+            'type' => 'native',
             'to' => $wallet,
-            'token_address' => env('TOKEN'),
+            // 'token_address' => env('TOKEN'),
             'chain_id' => env('CHAIN_ID'),
             'rpc_url' => env('RPC'),
-            'user_id' => 29,
+            'user_id' => 14,
         ]);
 
         $response = json_decode($response->body());
@@ -159,26 +155,20 @@ class TransactionsController extends Controller
                 $finalAmount,
                 'withdrawal',
                 '-',
-                "Withdraw success Tx Hash: {$response->txHash}",
-                'Paid',
+                "Withdraw success Tnx Hash: {$response->txHash}",
+                'Completed',
                 $chargeAmount
             );
 
-            $user->profit_wallet -= $amount;
+            $user->spot_wallet -= $amount;
             $user->save();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Your withdrawal successfully',
-                'wallet_balance' => $user->profit_wallet,
-            ]);
+            return redirect()->route('user.withdraw.index')->with('success', 'Withdrawal successful.');
         }
 
-        return response()->json([
-            'status' => false,
-            'message' => 'Withdrawal failed, please contact support',
-        ]);
+        return back()->with('error', 'Withdrawal failed, please contact support.');
     }
+
 
     public function transfer(Request $request)
     {

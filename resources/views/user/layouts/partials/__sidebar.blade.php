@@ -96,7 +96,7 @@
             </div>
           </li>
 
-           <li class="nav-item menu-items">
+           <li class="nav-item menu-items {{ request()->routeIs('user.deposit') ? 'active' : '' }}">
             <a class="nav-link" data-toggle="collapse" href="#wallets" aria-expanded="false" aria-controls="wallets">
               <span class="menu-icon">
                 <i class="mdi mdi-wallet"></i>
@@ -106,8 +106,8 @@
             </a>
             <div class="collapse" id="wallets">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/users/deposit.html">Add Fund</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/users/withdraw.html">Make Withdraw</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('user.deposit.index') }}">Add Fund</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('user.withdraw.index') }}">Make Withdraw</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/users/transfer.html">Fund Transfer</a></li>
               </ul>
             </div>

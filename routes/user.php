@@ -25,7 +25,8 @@ Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('packages', [PackagesController::class, 'index'])->name('user.packages');
     Route::post('buy-package', [PackagesController::class, 'buyPackage'])->name('user.packages.buy');
     Route::get('investment-history', [PackagesController::class, 'InvestHistory'])->name('user.Investment.history');
-        //deposit
+
+    //deposit
     Route::resource('deposit', DepositController::class)->only(['index', 'store']) ->names([
         'index' => 'user.deposit.index',
         'store' => 'user.deposit.store',
@@ -33,7 +34,10 @@ Route::prefix('user')->middleware('auth')->group(function () {
      Route::get('deposit/invoice/{invoice_id}', [DepositController::class, 'showInvoice'])->name('user.deposit.invoice');
      Route::get('deposit/history', [DepositController::class, 'history'])->name('user.deposit.history');
 
+    // withdraw
 
+    Route::get('withdraw', [TransactionsController::class, 'showWithdrawForm'])->name('user.withdraw.index');
+    Route::post('withdraw', [TransactionsController::class, 'withdraw'])->name('user.withdraw.submit');
 
     // Transactions
     Route::get('transactions', [TransactionsController::class, 'transactions'])->name('user.transactions');

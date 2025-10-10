@@ -234,7 +234,7 @@ function checkPaymentStatus(txId, tokenName) {
         statusBox.classList.add("alert-success");
         statusBox.innerHTML = `<i class="fas fa-check-circle me-2"></i><strong>Payment Received:</strong> ${data.balance} ${tokenName}<br>Redirecting to dashboard...`;
         setTimeout(() => {
-          window.location.href = "/user/dashboard";
+          window.location.href = "https://yeeo.finance/user/dashboard";
         }, 5000);
       } else {
         updateStepByStatus("waiting");

@@ -17,3 +17,5 @@
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="{{ asset('assets/user/js/dashboard.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

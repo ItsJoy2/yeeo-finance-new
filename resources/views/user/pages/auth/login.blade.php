@@ -55,14 +55,14 @@
                                 <div class="form-group">
                                     <label for="email">Email *</label>
                                     <input type="email" name="email" id="email"
-                                           class="form-control p_input"
+                                           class="form-control text-white p_input"
                                            value="{{ old('email') }}" required autofocus>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="password">Password *</label>
                                     <input type="password" name="password" id="password"
-                                           class="form-control p_input" required>
+                                           class="form-control text-white p_input" required>
                                 </div>
 
                                 <div class="form-group d-flex align-items-center justify-content-between">

@@ -33,34 +33,6 @@ class UserController extends Controller
     {
         return $this->userService->UserKyc($request);
     }
-
-     public function clubList(): JsonResponse
-    {
-        $clubs = Club::where('status', 1)
-            ->orderBy('required_refers', 'asc')
-            ->get()
-            ->map(function ($club) {
-                return [
-                    'id' => $club->id,
-                    'name' => $club->name,
-                    'Badge' => $club->image ? asset('storage/' . $club->image) : null,
-                    'required_refers' => $club->required_refers,
-                    'bonus_percent' => $club->bonus_percent,
-                    'incentive' => $club->incentive,
-                    'incentive_image' => $club->incentive_image ? asset('storage/' . $club->incentive_image) : null,
-                    'status' => $club->status ? 'Active' : 'Inactive',
-                    'created_at' => $club->created_at,
-                    'updated_at' => $club->updated_at,
-                ];
-            });
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Club list retrieved successfully',
-            'data' => $clubs,
-        ]);
-    }
-
     public function showActivation()
     {
         $activationSetting = ActivationSetting::first();
