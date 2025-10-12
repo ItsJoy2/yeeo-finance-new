@@ -1,8 +1,10 @@
 					<!-- Logo Header -->
 					<div class="logo-header" data-background-color="dark">
 
-						<a href="index.html" class="logo">
-							<img src="assets/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20">
+						<a href="{{ route('user.dashboard') }}" class="logo">
+							@if($generalSettings && $generalSettings->logo)
+                                <img src="{{ asset('public/storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
+                            @endif
 						</a>
 						<div class="nav-toggle">
 							<button class="btn btn-toggle toggle-sidebar">

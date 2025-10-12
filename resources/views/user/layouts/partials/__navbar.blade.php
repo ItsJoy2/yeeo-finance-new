@@ -1,6 +1,10 @@
 <nav class="navbar p-0 fixed-top d-flex flex-row">
           <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+            <a class="navbar-brand" href="{{ route('user.dashboard') }}">
+                @if($generalSettings && $generalSettings->logo)
+                    <img src="{{ asset('public/storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
+                @endif
+            </a>
           </div>
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -60,7 +64,7 @@
                   <p class="p-3 mb-0 text-center">4 new messages</p>
                 </div>
               </li> --}}
-              <li class="nav-item dropdown border-left">
+              {{-- <li class="nav-item dropdown border-left">
                 <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                   <i class="mdi mdi-bell"></i>
                   <span class="count bg-danger"></span>
@@ -106,26 +110,28 @@
                   <div class="dropdown-divider"></div>
                   <p class="p-3 mb-0 text-center">See all notifications</p>
                 </div>
-              </li>
+              </li> --}}
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
-                  <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
-                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Henry Klein</p>
+                <div class="navbar-profile">
+                   <img src="{{ auth()->user()->image ? asset('public/storage/' . auth()->user()->image) : asset('profile.png') }}" alt="Profile Image" id="profilePreview" class="img-xs rounded-circle shadow bg-secondary border {{ auth()->user()->is_active == 1 ? 'border-success' : 'border-secondary' }}" style="object-fit: cover; border-width: 2px !important;" onerror="this.src='{{ url('assets/profile-icon.png') }}'">
+                    <p class="mb-0 d-none d-sm-block navbar-profile-name">{{ auth()->user()->name }}</p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
-                  </div>
+                </div>
+
+
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                  <h6 class="p-3 mb-0">Profile</h6>
+                  <h6 class="p-3 mb-0">Settings</h6>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
+                  <a href="{{ route('user.profile') }}" class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
                       <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-settings text-success"></i>
+                        <i class="mdi mdi-account-circle text-success"></i>
                       </div>
                     </div>
                     <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Settings</p>
+                      <p class="preview-subject mb-1">Profile</p>
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
@@ -144,9 +150,6 @@
 
                     </div>
                   </a>
-                  <div class="dropdown-divider"></div>
-                  <p class="p-3 mb-0 text-center">Advanced settings</p>
-                </div>
               </li>
             </ul>
             <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">

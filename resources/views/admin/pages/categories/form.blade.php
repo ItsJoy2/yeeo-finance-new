@@ -16,7 +16,7 @@
     @enderror
 
     @if (!empty($category->image))
-        <img src="{{ asset('storage/' . $category->image) }}" alt="Pair Image"
+        <img src="{{ asset('public/storage/' . $category->image) }}" alt="Pair Image"
              style="width:40px; height:40px; object-fit:cover; margin-top:5px;">
     @endif
 </div>

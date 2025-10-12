@@ -39,8 +39,21 @@ Route::prefix('user')->middleware('auth')->group(function () {
     Route::get('withdraw', [TransactionsController::class, 'showWithdrawForm'])->name('user.withdraw.index');
     Route::post('withdraw', [TransactionsController::class, 'withdraw'])->name('user.withdraw.submit');
 
+       //transfer
+
+    Route::get('/transfer', [TransactionsController::class, 'showTransferForm'])->name('user.transfer.form');
+    Route::post('/transfer', [TransactionsController::class, 'transfer'])->name('user.transfer.submit');
+
     // Transactions
     Route::get('transactions', [TransactionsController::class, 'transactions'])->name('user.transactions');
+
+
+    //profile
+    Route::get('profile', [AuthController::class, 'profileEdit'])->name('user.profile');
+    Route::post('profile', [AuthController::class, 'updateProfile'])->name('user.profile.update');
+    Route::post('change-password', [AuthController::class, 'changePassword'])->name('user.changePassword');
+    Route::get('my-referrals', [UserController::class, 'directReferrals'])->name('user.direct.referrals');
+
 
 
 

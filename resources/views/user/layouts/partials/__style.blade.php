@@ -13,3 +13,4 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('assets/user/css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/user/css/style.css') }}">
+@stack('styles')

@@ -89,7 +89,7 @@ class UserController extends Controller
                     'remark'         => 'account_activation',
                     'type'           => '+',
                     'status'         => 'Paid',
-                    'details'        => 'Activation bonus to token wallet',
+                    'details'        => 'Activation token bonus to token wallet',
                     'charge'         => 0,
                 ]);
             }
@@ -115,6 +115,37 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Your account has been successfully activated.');
     }
+
+    public function directReferrals(Request $request)
+    {
+        $user = Auth::user();
+
+        // Get filter from request query param, default null (all)
+        $statusFilter = $request->query('status');
+
+        // Start query for referrals
+        $query = $user->referrals()
+            ->with(['investors' => function ($query) {
+                $query->where('status', 'running');
+            }])
+            ->latest();
+
+        // Apply filter if provided
+        if ($statusFilter === 'active') {
+            $query->where('is_active', 1);
+        } elseif ($statusFilter === 'inactive') {
+            $query->where('is_active', 0);
+        }
+
+        $referrals = $query->get();
+
+        foreach ($referrals as $referral) {
+            $referral->running_investment_total = $referral->investors->sum('amount');
+        }
+
+        return view('user.pages.teamwork.index', compact('referrals', 'statusFilter'));
+    }
+
 
 
 }

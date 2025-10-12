@@ -36,7 +36,7 @@
                             <td>{{ $index + 1 }}</td>
                             <td>
                                 @if($category->image)
-                                    <img src="{{ asset('storage/' . $category->image) }}" alt="Image" style="width:40px; height:40px; object-fit:cover;">
+                                    <img src="{{ asset('public/storage/' . $category->image) }}" alt="Image" style="width:40px; height:40px; object-fit:cover;">
                                 @else
                                     <span class="text-muted">No Image</span>
                                 @endif

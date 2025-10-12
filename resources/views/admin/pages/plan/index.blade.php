@@ -57,7 +57,7 @@
                             <td>{{ $index + $plans->firstItem() }}</td>
                             <td>
                                 @if($plan->image)
-                                    <img src="{{ asset('storage/' . $plan->image) }}" alt="Plan Image" style="width:40px; height:40px; object-fit:cover; border-radius:5px;">
+                                    <img src="{{ asset('public/storage/' . $plan->image) }}" alt="Plan Image" style="width:40px; height:40px; object-fit:cover; border-radius:5px;">
                                 @else
                                     <span class="text-muted">No Image</span>
                                 @endif

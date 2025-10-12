@@ -8,13 +8,14 @@ use App\Http\Controllers\admin\UsersController;
 use App\Http\Controllers\admin\DepositController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\WithdrawController;
-use App\Http\Controllers\admin\AdminClubController;
 use App\Http\Controllers\admin\AdminTicketController;
 use App\Http\Controllers\admin\TransactionsController;
 use App\Http\Controllers\admin\AdminDashboardController;
 use App\Http\Controllers\admin\GeneralSettingsController;
 use App\Http\Controllers\admin\WithdrawSettingsController;
+use App\Http\Controllers\admin\ActivationSettingController;
 use App\Http\Controllers\admin\ReferralsSettingsController;
+use App\Http\Controllers\admin\AuthenticatedSessionController;
 
 Route::get('/', function () {
     return redirect()->route('user.dashboard');
@@ -69,15 +70,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'update' => 'admin.kyc.update',
         'destroy' => 'admin.kyc.destroy'
     ]);
-    Route::resource('clubs', AdminClubController::class)->names([
-        'index' => 'admin.clubs.index',
-        'create' => 'admin.clubs.create',
-        'store' => 'admin.clubs.store',
-        'show' => 'admin.clubs.show',
-        'edit' => 'admin.clubs.edit',
-        'update' => 'admin.clubs.update',
-        'destroy' => 'admin.clubs.destroy'
-    ]);
     Route::get('cron', [CronController::class, 'view'])->name('cron');
 
 
@@ -122,6 +114,15 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // General Settings
     Route::get('general-settings', [GeneralSettingsController::class, 'index'])->name('admin.general.settings');
     Route::post('general-settings', [GeneralSettingsController::class, 'update'])->name('admin.general.settings.update');
+
+    //Activation Settings
+    Route::get('activation-settings', [ActivationSettingController::class, 'edit'])->name('admin.activation-settings.edit');
+    Route::post('activation-settings', [ActivationSettingController::class, 'update'])->name('admin.activation-settings.update');
+
+    //profile settings
+
+    Route::get('profile', [AuthenticatedSessionController::class, 'profileEdit'])->name('admin.profile.edit');
+    Route::post('profile', [AuthenticatedSessionController::class, 'profileUpdate'])->name('admin.profile.update');
 
 });
 

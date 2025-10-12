@@ -43,12 +43,18 @@ public function registerForm() :View
     {
         return $this->authServices->logout($request);
     }
-    public function profileUpdate(Request $request): JsonResponse
+
+    public function profileEdit(): View
+    {
+        $user = auth()->user();
+        return view('user.pages.profile.index', compact('user'));
+    }
+        public function updateProfile(Request $request): RedirectResponse
     {
         return $this->authServices->updateProfile($request);
     }
 
-    public function changePassword(Request $request): JsonResponse
+    public function changePassword(Request $request): RedirectResponse
     {
         return $this->authServices->changePassword($request);
     }

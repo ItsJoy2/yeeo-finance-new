@@ -185,89 +185,67 @@ class AuthServices
 
         return redirect()->route('login')->with('success', 'Logged out successfully.');
     }
-
-    public function updateProfile(Request $request): JsonResponse
+    public function updateProfile(Request $request)
     {
-        // Validate incoming request
         $validator = Validator::make($request->all(), [
-            'name'     => 'required|string|max:255',
-            'mobile'   => 'required|string|max:15|min:10',
-            'address'  => 'nullable|string|max:255',
-            'image'    => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'birthday' => 'nullable|date',
-            'nid_or_passport' => 'nullable|string|max:15|min:10',
-        ]);
+        'name'     => 'required|string|max:255',
+        'mobile'   => 'required|string|max:15|min:10',
+        'address'  => 'nullable|string|max:255',
+        'image'    => 'sometimes|image|mimes:jpeg,png,jpg|max:2048',
+        'birthday' => 'nullable|date',
+        'nid_or_passport' => 'nullable|string|max:15|min:10',
+    ]);
 
-        // Return errors if validation fails
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $user = $request->user();
-
-        // Update basic fields
-        $user->name = $request->input('name');
-        $user->mobile = $request->mobile;
-        $user->address = $request->address;
-        $user->birthday = $request->birthday;
-        $user->nid_or_passport = $request->nid_or_passport;
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            // Optionally delete old image if exists
-            if ($user->image && Storage::disk('public')->exists($user->image)) {
-                Storage::disk('public')->delete($user->image);
-            }
-
-            $imagePath = $request->file('image')->store('profile_images', 'public');
-            $user->image = $imagePath;
-        }
-
-        // Save user data
-        $user->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Profile updated successfully',
-            'user' => $user,
-        ]);
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
     }
 
-    public function changePassword(Request $request): JsonResponse
+    $user = auth()->user();
+    $user->name = $request->name;
+    $user->mobile = $request->mobile;
+    $user->address = $request->address;
+    $user->birthday = $request->birthday;
+    $user->nid_or_passport = $request->nid_or_passport;
+
+    if ($request->hasFile('image')) {
+        if ($user->image && Storage::disk('public')->exists($user->image)) {
+            Storage::disk('public')->delete($user->image);
+        }
+
+        $imagePath = $request->file('image')->store('profile_images', 'public');
+        $user->image = $imagePath;
+    }
+
+    $user->save();
+
+    return redirect()->route('user.profile')->with('success', 'Profile updated successfully.');
+    }
+
+    public function changePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'old_password' => 'required|string',
-            'new_password' => 'required|string|min:6|confirmed',
-        ]);
+        'current_password' => 'required|string',
+        'password' => 'required|string|min:6|confirmed',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors(),
-            ], 422);
-        }
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
 
-        $user = $request->user();
+    $user = $request->user();
 
-        if (!Hash::check($request->old_password, $user->password)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Old password is incorrect.'
-            ], 400);
-        }
+    if (!Hash::check($request->current_password, $user->password)) {
+        return redirect()->back()
+            ->withErrors(['current_password' => 'Old password is incorrect.'])
+            ->withInput();
+    }
 
-        $user->password = Hash::make($request->new_password);
-        $user->save();
+    $user->password = Hash::make($request->password);
+    $user->save();
 
-        $user->tokens()->delete();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Password changed successfully. Please log in again.',
-        ]);
+    return redirect()->back()->with('success', 'Password changed successfully.');
     }
 
 }

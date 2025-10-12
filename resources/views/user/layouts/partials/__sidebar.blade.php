@@ -2,11 +2,11 @@
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
           <a class="sidebar-brand brand-logo" href="{{ route('user.dashboard') }}">
             @if($generalSettings && $generalSettings->logo)
-                    <img src="{{ asset('storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
+                    <img src="{{ asset('public/storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
                 @endif</a>
           <a class="sidebar-brand brand-logo-mini" href="{{ route('user.dashboard') }}">
             @if($generalSettings && $generalSettings->logo)
-                <img src="{{ asset('storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
+                <img src="{{ asset('public/storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
             @endif
         </a>
         </div>
@@ -74,7 +74,7 @@
         <li class="nav-item menu-items {{ request()->routeIs('user.activation') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('user.activation') }}">
                 <span class="menu-icon">
-                <i class="mdi mdi-speedometer"></i>
+                <i class="mdi mdi-toggle-switch"></i>
                 </span>
                 <span class="menu-title">Activation</span>
             </a>
@@ -96,7 +96,7 @@
             </div>
           </li>
 
-           <li class="nav-item menu-items {{ request()->routeIs('user.deposit') ? 'active' : '' }}">
+           <li class="nav-item menu-items {{ request()->routeIs('user.deposit.index') ? 'active' : '' }}">
             <a class="nav-link" data-toggle="collapse" href="#wallets" aria-expanded="false" aria-controls="wallets">
               <span class="menu-icon">
                 <i class="mdi mdi-wallet"></i>
@@ -106,27 +106,29 @@
             </a>
             <div class="collapse" id="wallets">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{ route('user.deposit.index') }}">Add Fund</a></li>
+                <li class="nav-item" > <a class="nav-link " href="{{ route('user.deposit.index') }}">Add Fund</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{ route('user.withdraw.index') }}">Make Withdraw</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/users/transfer.html">Fund Transfer</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route('user.transfer.form') }}">Fund Transfer</a></li>
               </ul>
             </div>
           </li>
-          <li class="nav-item menu-items">
-            <a class="nav-link" data-toggle="collapse" href="#teamwork" aria-expanded="false" aria-controls="teamwork">
+          <li class="nav-item menu-items {{ request()->routeIs('user.direct.referrals') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('user.direct.referrals') }}">
               <span class="menu-icon">
                 <i class="mdi mdi-account-multiple-plus"></i>
               </span>
               <span class="menu-title">Teamwork</span>
-              <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="teamwork">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/users/referrals.html">Direct Referral</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/users/team.html">Whole Team</a></li>
-              </ul>
-            </div>
           </li>
+          <li class="nav-item menu-items {{ request()->routeIs('user.deposit.history') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('user.deposit.history') }}">
+                    <span class="menu-icon">
+                    <i class="mdi mdi-bank"></i>
+                    </span>
+                    <span class="menu-title">Deposit History</span>
+                </a>
+            </li>
+
           <li class="nav-item menu-items  {{ request()->routeIs('user.transactions') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('user.transactions') }}">
               <span class="menu-icon">
@@ -135,7 +137,7 @@
               <span class="menu-title">Transactions</span>
             </a>
           </li>
-         <li class="nav-item menu-items">
+         {{-- <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#tickets" aria-expanded="false" aria-controls="teamwork">
               <span class="menu-icon">
                 <i class="mdi mdi-ticket"></i>
@@ -149,9 +151,9 @@
                 <li class="nav-item"> <a class="nav-link" href="pages/users/alltickets.html">All Tickets</a></li>
               </ul>
             </div>
-          </li>
+          </li> --}}
 
-          <li class="nav-item menu-items">
+          {{-- <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <span class="menu-icon">
                 <i class="mdi mdi-security"></i>
@@ -168,7 +170,7 @@
                 <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
               </ul>
             </div>
-          </li>
+          </li> --}}
 
         </ul>
       </nav>

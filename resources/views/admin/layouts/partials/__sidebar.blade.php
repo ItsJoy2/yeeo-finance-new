@@ -4,9 +4,9 @@
     <div class="sidebar-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-            <a href="{[route('admin.dashboard')]}" class="logo">
+            <a href="{{ route('admin.dashboard') }}" class="logo">
                 @if($generalSettings && $generalSettings->logo)
-                    <img src="{{ asset('storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
+                    <img src="{{ asset('public/storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
                 @endif
             </a>
             <div class="nav-toggle">
@@ -30,7 +30,7 @@
 
                 <!-- Dashboard -->
                 <li class="nav-item {{ request()->is('admin.dashboard') ? 'active' : '' }}">
-                    <a href="{[route('admin.dashboard')]}">
+                    <a href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
@@ -62,6 +62,15 @@
                         <p>Trading Pairs</p>
                     </a>
                 </li>
+                <!-- Deposit -->
+                    <li class="nav-item {{ Str::contains(request()->path(), 'deposit') ? 'active' : '' }}">
+                    <a href="{{ route('admin.deposit.index') }}" class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-money-check-alt"></i>
+                            <p class="m-0">Deposit</p>
+                        </div>
+                    </a>
+                </li>
 
                 <!-- Withdraw -->
                 <li class="nav-item {{ Str::contains(request()->path(), 'withdraw') ? 'active' : '' }}">
@@ -79,15 +88,6 @@
                     </a>
                 </li>
 
-
-                    <li class="nav-item {{ Str::contains(request()->path(), 'deposit') ? 'active' : '' }}">
-                    <a href="{{ route('admin.deposit.index') }}" class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fas fa-money-check-alt"></i>
-                            <p class="m-0">Deposit</p>
-                        </div>
-                    </a>
-                </li>
 
 
                 <!-- Transactions -->
@@ -122,7 +122,7 @@
 
 
                 <!-- KYC -->
-                @php
+                {{-- @php
                     use App\Models\kyc;
                     $pendingCount = kyc::where('status', 'pending')->count();
                 @endphp
@@ -140,7 +140,7 @@
             </span>
                         @endif
                     </a>
-                </li>
+                </li> --}}
 
 
 
@@ -169,10 +169,10 @@
                     </a>
                     <div class="collapse" id="settings">
                         <ul class="nav nav-collapse">
-                            {{-- <li><a href="/holidays"><span class="sub-item {{ Str::contains(request()->path(), 'holidays') ? 'active' : '' }}">Holidays Setting</span></a></li> --}}
-                            {{-- <li><a href="/withdraws/settings"><span class="sub-item {{ Str::contains(request()->path(), 'holidays') ? 'active' : '' }}">Withdraws Settings</span></a></li> --}}
+                            <li clsas="{{ Str::contains(request()->path(), 'settings') ? 'active' : '' }}"><a href="{{ route('admin.activation-settings.edit') }}"><span class="sub-item">Activation Setting</span></a></li>
+                            <li><a href="{{ route('admin.withdraw.settings') }}"><span class="sub-item">Withdraws Settings</span></a></li>
                             {{-- <li><a href="/founder-bonus"><span class="sub-item">Founder Bonus</span></a></li> --}}
-                            <li class="{{ Str::contains(request()->path(), 'holidays') ? 'active' : '' }}"><a href="{{ route('admin.general.settings') }}"><span class="sub-item">General Settings</span></a></li>
+                            <li><a href="{{ route('admin.general.settings') }}"><span class="sub-item">General Settings</span></a></li>
                         </ul>
                     </div>
                 </li>

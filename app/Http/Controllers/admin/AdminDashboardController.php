@@ -19,7 +19,7 @@ class AdminDashboardController extends Controller
 
             $withdrawSettings = withdraw_settings::first();
             $chargePercent = $withdrawSettings ? $withdrawSettings->charge : 0;
-            $totalNetWithdrawals = Transactions::where('remark', 'withdrawal')->where('status', 'Paid')->sum('amount');
+            $totalNetWithdrawals = Transactions::where('remark', 'withdrawal')->where('status', 'Completed')->sum('amount');
             $withdrawChargeAmount = $chargePercent > 0 ? $totalNetWithdrawals * $chargePercent / (100 - $chargePercent) : 0;
             return [
 
@@ -30,15 +30,15 @@ class AdminDashboardController extends Controller
                 'newUser' => User::where('created_at', '>=', now()->startOfDay()->addHours(5))->where('role', 'user')->count(),
 
                 // deposit
-                'totalDeposits' => Deposit::sum('amount'),
-                'todayDeposits' => Deposit::whereDate('created_at', today())->sum('amount'),
-                'last7DaysDeposits' => Deposit::whereBetween('created_at', [now()->subDays(7), today()])->sum('amount'),
-                'last30DaysDeposits' => Deposit::whereBetween('created_at', [now()->subDays(30), today()])->sum('amount'),
+                'totalDeposits' => Deposit::where('status', 1)->sum('amount'),
+                'todayDeposits' => Deposit::where('status', 1)->whereDate('created_at', today())->sum('amount'),
+                'last7DaysDeposits' => Deposit::where('status', 1)->whereBetween('created_at', [now()->subDays(7), today()])->sum('amount'),
+                'last30DaysDeposits' => Deposit::where('status', 1)->whereBetween('created_at', [now()->subDays(30), today()])->sum('amount'),
 
                 // withdrawal
-                'totalWithdrawals' => Transactions::where('remark', 'withdrawal')->where('status', 'Paid')->sum('amount'),
-                'todayWithdrawals' => Transactions::where('remark', 'withdrawal')->where('status', 'Paid')->whereDate('created_at', today())->sum('amount'),
-                'last30DaysWithdrawals' => Transactions::where('remark', 'withdrawal')->where('status', 'Paid')->whereBetween('created_at', [now()->subDays(30), today()])->sum('amount'),
+                'totalWithdrawals' => Transactions::where('remark', 'withdrawal')->where('status', 'Completed')->sum('amount'),
+                'todayWithdrawals' => Transactions::where('remark', 'withdrawal')->where('status', 'Completed')->whereDate('created_at', today())->sum('amount'),
+                'last30DaysWithdrawals' => Transactions::where('remark', 'withdrawal')->where('status', 'Completed')->whereBetween('created_at', [now()->subDays(30), today()])->sum('amount'),
                 'withdrawChargeAmount' => $withdrawChargeAmount,
 
                 // Investment

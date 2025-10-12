@@ -169,6 +169,11 @@ class TransactionsController extends Controller
         return back()->with('error', 'Withdrawal failed, please contact support.');
     }
 
+    public function showTransferForm()
+    {
+        $transferSettings = TransferSetting::first();
+        return view('user.pages.transfer.index', compact('transferSettings'));
+    }
 
     public function transfer(Request $request)
     {
@@ -181,92 +186,65 @@ class TransactionsController extends Controller
         $receiver = User::where('email', $validated['email'])->first();
 
         if ($sender->id === $receiver->id) {
-            return response()->json([
-                'status'  => false,
-                'message' => "You cannot transfer to yourself",
-            ], 400);
+            return redirect()->back()->with('error', "You cannot transfer to yourself");
         }
 
         if ($sender->is_block == 1) {
-            return response()->json([
-                'status'  => false,
-                'message' => "Your account is blocked by admin.",
-            ], 400);
+            return redirect()->back()->with('error', "Your account is blocked by admin.");
         }
 
         $setting = TransferSetting::first();
         if (!$setting || $setting->status == 0) {
-            return response()->json([
-                'status'  => false,
-                'message' => "Transfer is currently disabled by Admin",
-            ], 403);
+            return redirect()->back()->with('error', "Transfer is currently disabled by Admin");
         }
 
         if ($validated['amount'] < $setting->min_transfer) {
-            return response()->json([
-                'status'  => false,
-                'message' => "Minimum transfer amount is {$setting->min_transfer}",
-            ], 400);
+            return redirect()->back()->with('error', "Minimum transfer amount is {$setting->min_transfer}");
         }
 
         if ($validated['amount'] > $setting->max_transfer) {
-            return response()->json([
-                'status'  => false,
-                'message' => "Maximum transfer amount is {$setting->max_transfer}",
-            ], 400);
+            return redirect()->back()->with('error', "Maximum transfer amount is {$setting->max_transfer}");
         }
 
-        if ($sender->main_wallet < $validated['amount']) {
-            return response()->json([
-                'status'  => false,
-                'message' => "You don't have enough balance in main_wallet",
-            ], 400);
+        if ($sender->funding_wallet < $validated['amount']) {
+            return redirect()->back()->with('error', "You don't have enough balance in Funding Wallet");
         }
 
         DB::beginTransaction();
 
         try {
-            $sender->decrement('main_wallet', $validated['amount']);
-
-            $receiver->increment('main_wallet', $validated['amount']);
+            $sender->decrement('funding_wallet', $validated['amount']);
+            $receiver->increment('funding_wallet', $validated['amount']);
 
             Transactions::create([
-                'transaction_id'=> Transactions::generateTransactionId(),
-                'user_id'       => $sender->id,
-                'amount'        => $validated['amount'],
-                'wallet_type'   => 'main_wallet',
-                'type'          => '-',
-                'status'        => 'Completed',
-                'details'       => "Transfer to {$receiver->email}",
-                'remark'        => 'transfer',
+                'transaction_id' => Transactions::generateTransactionId(),
+                'user_id'        => $sender->id,
+                'amount'         => $validated['amount'],
+                'wallet_type'    => 'funding_wallet',
+                'type'           => '-',
+                'status'         => 'Completed',
+                'details'        => "Transfer to {$receiver->email}",
+                'remark'         => 'transfer',
             ]);
 
             Transactions::create([
-                'transaction_id'=> Transactions::generateTransactionId(),
-                'user_id'       => $receiver->id,
-                'amount'        => $validated['amount'],
-                'wallet_type'   => 'main_wallet',
-                'type'          => '+',
-                'status'        => 'Completed',
-                'details'       => "Received from {$sender->email}",
-                'remark'        => 'transfer',
+                'transaction_id' => Transactions::generateTransactionId(),
+                'user_id'        => $receiver->id,
+                'amount'         => $validated['amount'],
+                'wallet_type'    => 'funding_wallet',
+                'type'           => '+',
+                'status'         => 'Completed',
+                'details'        => "Received from {$sender->email}",
+                'remark'         => 'transfer',
             ]);
 
             DB::commit();
 
-            return response()->json([
-                'status'  => true,
-                'message' => "Transaction successful from main_wallet",
-            ]);
+            return redirect()->back()->with('success', "Transfer successful to  $sender->email");
 
         } catch (\Exception $e) {
             DB::rollBack();
-
-            return response()->json([
-                'status'  => false,
-                'message' => "Transaction failed",
-                'error'   => $e->getMessage(),
-            ], 500);
+            return redirect()->back()->with('error', "Transaction failed: " . $e->getMessage());
         }
     }
 

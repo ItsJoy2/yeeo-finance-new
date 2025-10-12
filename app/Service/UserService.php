@@ -20,7 +20,6 @@ class UserService
 
 
         $directRefer = $user->referrals()->count();
-        $totalInvestment = (float) Founder::where('user_id', $user->id)->sum('investment') ?? '0';
         $totalWithdraw = (float) Transactions::where('user_id', $user->id)->where('remark','withdrawal')->sum('amount');
         $totalTransfer = (float) Transactions::where('user_id', $user->id)->where('remark','transfer')->sum('amount');
          $totalDeposit = (float) Transactions::where('user_id', $user->id)
@@ -84,7 +83,6 @@ class UserService
                 'main_wallet' => $user->main_wallet,
                 'profit_wallet' => $user->profit_wallet,
                 'directRefer' => $directRefer,
-                'founder_member' => $founderMember,
                 'totalInvestment' => $totalInvestment,
                 'totalWithdraw' => $totalWithdraw,
                 'totalTransfer' => $totalTransfer,

@@ -176,335 +176,328 @@
               </div>
             </div>
 
+            <!-- investment Section  -->
+            @php
+                use Illuminate\Support\Str;
+
+                $totalChangeNumber = floatval(str_replace(['%', '+', '-'], '', $dashboard['totalInvestmentChange']));
+                $runningChangeNumber = floatval(str_replace(['%', '+', '-'], '', $dashboard['runningInvestmentChange']));
+                $maturedChangeNumber = floatval(str_replace(['%', '+', '-'], '', $dashboard['maturedInvestmentChange']));
+            @endphp
+
             <div class="row">
-              <div class="col-sm-4 grid-margin">
+            <!-- Total Investment -->
+            <div class="col-sm-4 grid-margin">
                 <div class="card">
-                  <div class="card-body">
+                <div class="card-body">
                     <h5>Total Investment</h5>
                     <div class="row">
-                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                    <div class="col-8 col-sm-12 col-xl-8 my-auto">
                         <div class="d-flex d-sm-block d-md-flex align-items-center">
-                          <h2 class="mb-0">$32123</h2>
-                          <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+                        <h2 class="mb-0">${{ number_format($dashboard['totalInvestment'], 2) }}</h2>
+                        <p class="ml-2 mb-0 font-weight-medium {{ Str::startsWith($dashboard['totalInvestmentChange'], '+') ? 'text-success' : 'text-danger' }}">
+                            {{ $dashboard['totalInvestmentChange'] }}
+                        </p>
                         </div>
-                        <h6 class="text-muted font-weight-normal">11.38% Since last month</h6>
-                      </div>
-                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <h6 class="text-muted font-weight-normal">
+                        {{ $totalChangeNumber }}% Since last month
+                        </h6>
+                    </div>
+                    <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
                         <i class="icon-lg mdi mdi-codepen text-primary ml-auto"></i>
-                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4 grid-margin">
-                <div class="card">
-                  <div class="card-body">
-                    <h5>Running Investment</h5>
-                    <div class="row">
-                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
-                        <div class="d-flex d-sm-block d-md-flex align-items-center">
-                          <h2 class="mb-0">$45850</h2>
-                          <p class="text-success ml-2 mb-0 font-weight-medium">+8.3%</p>
-                        </div>
-                        <h6 class="text-muted font-weight-normal"> 9.61% Since last month</h6>
-                      </div>
-                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-                        <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-              <div class="col-sm-4 grid-margin">
-                <div class="card">
-                  <div class="card-body">
-                    <h5>Matured Investment</h5>
-                    <div class="row">
-                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
-                        <div class="d-flex d-sm-block d-md-flex align-items-center">
-                          <h2 class="mb-0">$2039</h2>
-                          <p class="text-danger ml-2 mb-0 font-weight-medium">-2.1% </p>
-                        </div>
-                        <h6 class="text-muted font-weight-normal">2.27% Since last month</h6>
-                      </div>
-                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-                        <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </div>
             </div>
 
-                        <div class="row">
-              <div class="col-md-4 grid-margin stretch-card">
+            <!-- Running Investment -->
+            <div class="col-sm-4 grid-margin">
                 <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Transaction History</h4>
-                    <canvas id="transaction-history" class="transaction-chart"></canvas>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Last Transfer</h6>
-                        <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$236</h6>
-                      </div>
+                <div class="card-body">
+                    <h5>Running Investment</h5>
+                    <div class="row">
+                    <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                        <h2 class="mb-0">${{ number_format($dashboard['runningInvestment'], 2) }}</h2>
+                        <p class="ml-2 mb-0 font-weight-medium {{ Str::startsWith($dashboard['runningInvestmentChange'], '+') ? 'text-success' : 'text-danger' }}">
+                            {{ $dashboard['runningInvestmentChange'] }}
+                        </p>
+                        </div>
+                        <h6 class="text-muted font-weight-normal">
+                        {{ $runningChangeNumber }}% Since last month
+                        </h6>
                     </div>
-                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
-                      <div class="text-md-center text-xl-left">
-                        <h6 class="mb-1">Last Withdraw</h6>
-                        <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
-                      </div>
-                      <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
-                        <h6 class="font-weight-bold mb-0">$593</h6>
-                      </div>
+                    <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
                     </div>
-                  </div>
+                    </div>
                 </div>
-              </div>
-              <div class="col-md-8 grid-margin stretch-card">
+                </div>
+            </div>
+
+            <!-- Matured Investment -->
+            <div class="col-sm-4 grid-margin">
                 <div class="card">
-                  <div class="card-body">
+                <div class="card-body">
+                    <h5>Matured Investment</h5>
+                    <div class="row">
+                    <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                        <h2 class="mb-0">${{ number_format($dashboard['maturedInvestment'], 2) }}</h2>
+                        <p class="ml-2 mb-0 font-weight-medium {{ Str::startsWith($dashboard['maturedInvestmentChange'], '+') ? 'text-success' : 'text-danger' }}">
+                            {{ $dashboard['maturedInvestmentChange'] }}
+                        </p>
+                        </div>
+                        <h6 class="text-muted font-weight-normal">
+                        {{ $maturedChangeNumber }}% Since last month
+                        </h6>
+                    </div>
+                    <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+
+                        <div class="row">
+            <div class="col-md-4 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                <h4 class="card-title">Transaction History</h4>
+                <canvas id="transaction-history" class="transaction-chart"></canvas>
+
+                {{-- Last Transfer --}}
+                <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                    <div class="text-md-center text-xl-left">
+                    <h6 class="mb-1">Last Transfer</h6>
+                    <p class="text-muted mb-0">
+                        {{ $dashboard['lastTransfer']
+                            ? $dashboard['lastTransfer']->created_at->format('d M Y, h:ia')
+                            : 'No transfer yet' }}
+                    </p>
+                    </div>
+                    <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                    <h6 class="font-weight-bold mb-0">
+                        ${{ $dashboard['lastTransfer'] ? number_format($dashboard['lastTransfer']->amount, 2) : '0.00' }}
+                    </h6>
+                    </div>
+                </div>
+
+                {{-- Last Withdraw --}}
+                <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                    <div class="text-md-center text-xl-left">
+                    <h6 class="mb-1">Last Withdraw</h6>
+                    <p class="text-muted mb-0">
+                        {{ $dashboard['lastWithdraw']
+                            ? $dashboard['lastWithdraw']->created_at->format('d M Y, h:ia')
+                            : 'No withdrawal yet' }}
+                    </p>
+                    </div>
+                    <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                    <h6 class="font-weight-bold mb-0">
+                        ${{ $dashboard['lastWithdraw'] ? number_format($dashboard['lastWithdraw']->amount, 2) : '0.00' }}
+                    </h6>
+                    </div>
+                </div>
+
+                {{-- Last Deposit --}}
+                <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                    <div class="text-md-center text-xl-left">
+                    <h6 class="mb-1">Last Deposit</h6>
+                    <p class="text-muted mb-0">
+                        {{ $dashboard['lastDeposit']
+                            ? $dashboard['lastDeposit']->created_at->format('d M Y, h:ia')
+                            : 'No deposit yet' }}
+                    </p>
+                    </div>
+                    <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                    <h6 class="font-weight-bold mb-0">
+                        ${{ $dashboard['lastDeposit'] ? number_format($dashboard['lastDeposit']->amount, 2) : '0.00' }}
+                    </h6>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+            </div>
+
+             <div class="col-md-8 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
                     <div class="d-flex flex-row justify-content-between">
-                      <h4 class="card-title mb-1">My Investment</h4>
-                      <p class="text-white mb-1">Invest Details</p>
+                        <h4 class="card-title mb-1">Transaction History</h4>
+                        <p class="text-white mb-1">Recent Transactions</p>
                     </div>
                     <div class="row">
-                      <div class="col-12">
+                        <div class="col-12">
                         <div class="preview-list">
-                          <div class="preview-item border-bottom">
-                            <div class="preview-thumbnail">
-                              <div class="preview-icon bg-primary">
-                                <i class="mdi mdi-file-document"></i>
-                              </div>
+
+                            @php
+                            $icons = [
+                                'account_activation' => ['icon' => 'mdi mdi-file-document', 'color' => 'bg-primary'],
+                                'withdrawal'         => ['icon' => 'mdi mdi-arrow-down-bold-circle', 'color' => 'bg-danger'],
+                                'transfer'           => ['icon' => 'mdi mdi-swap-horizontal', 'color' => 'bg-info'],
+                                'activation_bonus'   => ['icon' => 'mdi mdi-star-circle', 'color' => 'bg-warning'],
+                                'trade_bonus'        => ['icon' => 'mdi mdi-trending-up', 'color' => 'bg-success'],
+                                'pnl_bonus'          => ['icon' => 'mdi mdi-cash-multiple', 'color' => 'bg-success'],
+                                'daily_pnl'          => ['icon' => 'mdi mdi-calendar-today', 'color' => 'bg-success'],
+                                'package_purchased'  => ['icon' => 'mdi mdi-cart-outline', 'color' => 'bg-warning'],
+                                'rank_bonus'         => ['icon' => 'mdi mdi-trophy-outline', 'color' => 'bg-warning'],
+                            ];
+
+                            $remarkLabels = [
+                                'account_activation' => 'Account Activation',
+                                'withdrawal'         => 'Withdrawal',
+                                'transfer'           => 'Transfer',
+                                'activation_bonus'   => 'Activation Bonus',
+                                'trade_bonus'        => 'Trade Bonus',
+                                'pnl_bonus'          => 'PNL Bonus',
+                                'daily_pnl'          => 'Daily PNL',
+                                'package_purchased'  => 'Plan Invested',
+                                'rank_bonus'         => 'Rank Bonus',
+                            ];
+                            @endphp
+
+                            @forelse($dashboard['transactions'] as $transaction)
+                            @php
+                                $icon = $icons[$transaction->remark]['icon'] ?? 'mdi mdi-file-document';
+                                $color = $icons[$transaction->remark]['color'] ?? 'bg-secondary';
+                                $label = $remarkLabels[$transaction->remark] ?? ucfirst(str_replace('_', ' ', $transaction->remark));
+                            @endphp
+
+                            <div class="preview-item border-bottom">
+                                <div class="preview-thumbnail">
+                                <div class="preview-icon {{ $color }}">
+                                    <i class="{{ $icon }}"></i>
+                                </div>
+                                </div>
+                                <div class="preview-item-content d-sm-flex flex-grow">
+                                <div class="flex-grow">
+                                    <h6 class="preview-subject">{{ $label }}</h6>
+                                    <p class="text-muted mb-0">{{ $transaction->created_at->format('d M Y') }}</p>
+                                </div>
+                                <div class="mr-auto text-sm-right pt-2 pt-sm-0">
+                                    <p class="text-muted">Amount: ${{ number_format($transaction->amount, 2) }}</p>
+                                    <p class="text-muted mb-0"> {{ $transaction->details ?? '-' }}</p>
+                                </div>
+                                </div>
                             </div>
-                            <div class="preview-item-content d-sm-flex flex-grow">
-                              <div class="flex-grow">
-                                <h6 class="preview-subject">Standard Package</h6>
-                                <p class="text-muted mb-0">Invest Period: 365D</p>
-                              </div>
-                              <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                                <p class="text-muted">Invest Amount: $1000</p>
-                                <p class="text-muted mb-0">30D Received, 250D Remained </p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="preview-item border-bottom">
-                            <div class="preview-thumbnail">
-                              <div class="preview-icon bg-success">
-                                <i class="mdi mdi-cloud-download"></i>
-                              </div>
-                            </div>
-                            <div class="preview-item-content d-sm-flex flex-grow">
-                              <div class="flex-grow">
-                                <h6 class="preview-subject">Enterprise Package</h6>
-                                <p class="text-muted mb-0">Invest Period: 365D</p>
-                              </div>
-                              <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                                <p class="text-muted">Invest Amount: $500</p>
-                                <p class="text-muted mb-0">23D Received, 270D Remained</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="preview-item border-bottom">
-                            <div class="preview-thumbnail">
-                              <div class="preview-icon bg-info">
-                                <i class="mdi mdi-clock"></i>
-                              </div>
-                            </div>
-                            <div class="preview-item-content d-sm-flex flex-grow">
-                              <div class="flex-grow">
-                                <h6 class="preview-subject">Basic Package</h6>
-                                <p class="text-muted mb-0">Invest Period: 365D</p>
-                              </div>
-                              <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                                <p class="text-muted">Invest Amount: $100</p>
-                                <p class="text-muted mb-0">30D Received, 250D Remained</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="preview-item border-bottom">
-                            <div class="preview-thumbnail">
-                              <div class="preview-icon bg-danger">
-                                <i class="mdi mdi-email-open"></i>
-                              </div>
-                            </div>
-                            <div class="preview-item-content d-sm-flex flex-grow">
-                              <div class="flex-grow">
-                                <h6 class="preview-subject">Standard Package</h6>
-                                <p class="text-muted mb-0">Invest Period: 365D</p>
-                              </div>
-                              <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                                <p class="text-muted">Invest Amount: $1000</p>
-                                <p class="text-muted mb-0">30D Received, 250D Remained </p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="preview-item">
-                            <div class="preview-thumbnail">
-                              <div class="preview-icon bg-warning">
-                                <i class="mdi mdi-chart-pie"></i>
-                              </div>
-                            </div>
-                            <div class="preview-item-content d-sm-flex flex-grow">
-                              <div class="flex-grow">
-                                <h6 class="preview-subject">Basic Package</h6>
-                                <p class="text-muted mb-0">30D Received, 250D Remained</p>
-                              </div>
-                              <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                                <p class="text-muted">Invest Amount: $100</p>
-                                <p class="text-muted mb-0">30D Received, 250D Remained </p>
-                              </div>
-                            </div>
-                          </div>
+                            @empty
+                            <p>No transactions found.</p>
+                            @endforelse
+
                         </div>
-                      </div>
+                        </div>
                     </div>
-                  </div>
+                    </div>
                 </div>
-              </div>
+                </div>
+
             </div>
 
 
             <div class="row">
-              <div class="col-md-6 col-xl-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex flex-row justify-content-between">
-                      <h4 class="card-title">Active Referral</h4>
-                      <p class="text-muted mb-1 small">View all</p>
+
+                <!-- Active Referrals -->
+                <div class="col-md-6 col-xl-6 grid-margin stretch-card">
+                    <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="card-title">Active Referrals</h4>
+                        <a href="{{ route('user.direct.referrals', ['status' => 'active']) }}" class="text-muted small">View all</a>
+                        </div>
+
+                        <div class="preview-list">
+                        @forelse ($dashboard['activeReferrals'] as $referral)
+                            <div class="preview-item border-bottom">
+                            <div class="preview-thumbnail">
+                                <img src="{{ $referral->image ? asset('storage/' . $referral->image) : asset('public/assets/profile-icon.png') }}" alt="image" class="rounded-circle" />
+                            </div>
+                            <div class="preview-item-content d-flex flex-grow">
+                                <div class="flex-grow">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="preview-subject">{{ $referral->name }}</h6>
+                                        <p class="text-muted text-small">{{ $referral->created_at->diffForHumans() }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-muted">{{ $referral->email }}</p>
+                                        <p class="text-muted text-small">Status: <span class="text-success">Active</span> </p>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        @empty
+                            <p class="text-center text-muted">No active referrals found.</p>
+                        @endforelse
+                        </div>
                     </div>
-                    <div class="preview-list">
-                      <div class="preview-item border-bottom">
-                        <div class="preview-thumbnail">
-                          <img src="assets/images/faces/face6.jpg" alt="image" class="rounded-circle" />
-                        </div>
-                        <div class="preview-item-content d-flex flex-grow">
-                          <div class="flex-grow">
-                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                              <h6 class="preview-subject">Leonard</h6>
-                              <p class="text-muted text-small">5 minutes ago</p>
-                            </div>
-                            <p class="text-muted">Well, it seems to be working now.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="preview-item border-bottom">
-                        <div class="preview-thumbnail">
-                          <img src="assets/images/faces/face8.jpg" alt="image" class="rounded-circle" />
-                        </div>
-                        <div class="preview-item-content d-flex flex-grow">
-                          <div class="flex-grow">
-                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                              <h6 class="preview-subject">Luella Mills</h6>
-                              <p class="text-muted text-small">10 Minutes Ago</p>
-                            </div>
-                            <p class="text-muted">Well, it seems to be working now.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="preview-item border-bottom">
-                        <div class="preview-thumbnail">
-                          <img src="assets/images/faces/face9.jpg" alt="image" class="rounded-circle" />
-                        </div>
-                        <div class="preview-item-content d-flex flex-grow">
-                          <div class="flex-grow">
-                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                              <h6 class="preview-subject">Ethel Kelly</h6>
-                              <p class="text-muted text-small">2 Hours Ago</p>
-                            </div>
-                            <p class="text-muted">Please review the tickets</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="preview-item border-bottom">
-                        <div class="preview-thumbnail">
-                          <img src="assets/images/faces/face11.jpg" alt="image" class="rounded-circle" />
-                        </div>
-                        <div class="preview-item-content d-flex flex-grow">
-                          <div class="flex-grow">
-                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                              <h6 class="preview-subject">Herman May</h6>
-                              <p class="text-muted text-small">4 Hours Ago</p>
-                            </div>
-                            <p class="text-muted">Thanks a lot. It was easy to fix it .</p>
-                          </div>
-                        </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-            <div class="col-md-6 col-xl-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="d-flex flex-row justify-content-between">
-                      <h4 class="card-title">Active Referral</h4>
-                      <p class="text-muted mb-1 small">View all</p>
+
+                <!-- Inactive Referrals -->
+                <div class="col-md-6 col-xl-6 grid-margin stretch-card">
+                    <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="card-title">Inactive Referrals</h4>
+                        <a href="{{ route('user.direct.referrals', ['status' => 'inactive']) }}" class="text-muted small">View all</a>
+                        </div>
+
+                        <div class="preview-list">
+                        @forelse ($dashboard['inactiveReferrals'] as $referral)
+                            <div class="preview-item border-bottom">
+                            <div class="preview-thumbnail">
+
+                                <img src="{{ $referral->image ? asset('storage/' . $referral->image) : asset('public/assets/profile-icon.png') }}" alt="image" class="rounded-circle" />
+                            </div>
+                            <div class="preview-item-content d-flex flex-grow">
+                                <div class="flex-grow">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="preview-subject">{{ $referral->name }}</h6>
+                                        <p class="text-muted text-small">{{ $referral->created_at->diffForHumans() }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                    <p class="text-muted">{{ $referral->email }}</p>
+                                    <p class="text-muted text-small">Status: <span class="text-danger">Inactive</span> </p>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        @empty
+                            <p class="text-center text-muted">No inactive referrals found.</p>
+                        @endforelse
+                        </div>
                     </div>
-                    <div class="preview-list">
-                      <div class="preview-item border-bottom">
-                        <div class="preview-thumbnail">
-                          <img src="assets/images/faces/face6.jpg" alt="image" class="rounded-circle" />
-                        </div>
-                        <div class="preview-item-content d-flex flex-grow">
-                          <div class="flex-grow">
-                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                              <h6 class="preview-subject">Leonard</h6>
-                              <p class="text-muted text-small">5 minutes ago</p>
-                            </div>
-                            <p class="text-muted">Well, it seems to be working now.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="preview-item border-bottom">
-                        <div class="preview-thumbnail">
-                          <img src="assets/images/faces/face8.jpg" alt="image" class="rounded-circle" />
-                        </div>
-                        <div class="preview-item-content d-flex flex-grow">
-                          <div class="flex-grow">
-                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                              <h6 class="preview-subject">Luella Mills</h6>
-                              <p class="text-muted text-small">10 Minutes Ago</p>
-                            </div>
-                            <p class="text-muted">Well, it seems to be working now.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="preview-item border-bottom">
-                        <div class="preview-thumbnail">
-                          <img src="assets/images/faces/face9.jpg" alt="image" class="rounded-circle" />
-                        </div>
-                        <div class="preview-item-content d-flex flex-grow">
-                          <div class="flex-grow">
-                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                              <h6 class="preview-subject">Ethel Kelly</h6>
-                              <p class="text-muted text-small">2 Hours Ago</p>
-                            </div>
-                            <p class="text-muted">Please review the tickets</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="preview-item border-bottom">
-                        <div class="preview-thumbnail">
-                          <img src="assets/images/faces/face11.jpg" alt="image" class="rounded-circle" />
-                        </div>
-                        <div class="preview-item-content d-flex flex-grow">
-                          <div class="flex-grow">
-                            <div class="d-flex d-md-block d-xl-flex justify-content-between">
-                              <h6 class="preview-subject">Herman May</h6>
-                              <p class="text-muted text-small">4 Hours Ago</p>
-                            </div>
-                            <p class="text-muted">Thanks a lot. It was easy to fix it .</p>
-                          </div>
-                        </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-            </div>
+
+                </div>
+
           </div>
 
 @endsection
+
+
+@push('scripts')
+    <script>
+        window.transactionChartData = {
+            labels: ["Deposit", "Withdraw", "Transfer"],
+            datasets: [{
+                data: [
+                    {{ $dashboard['totalDeposit'] ?? 0 }},
+                    {{ $dashboard['totalWithdraw'] ?? 0 }},
+                    {{ $dashboard['totalTransfer'] ?? 0 }}
+                ],
+                backgroundColor: ["#ffab00", "#111111", "#00d25b" ]
+            }]
+        };
+
+        window.transactionTotalAmount = {{ $dashboard['totalDeposit'] + $dashboard['totalWithdraw'] + $dashboard['totalTransfer'] }};
+    </script>
+
+@endpush

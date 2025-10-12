@@ -34,7 +34,7 @@
     @enderror
 
     @if (!empty($plan->image))
-        <img src="{{ asset('storage/' . $plan->image) }}" alt="Image"
+        <img src="{{ asset('public/storage/' . $plan->image) }}" alt="Image"
              style="width:40px; height:40px; object-fit:cover; margin-top:5px;">
     @endif
 </div>

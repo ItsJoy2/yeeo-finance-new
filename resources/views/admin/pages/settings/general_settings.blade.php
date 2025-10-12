@@ -17,10 +17,10 @@
                 <!-- Left Sidebar Navigation -->
                 <div class="col-md-4">
                     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        {{-- <button class="nav-link active" id="v-pills-founder-tab" data-bs-toggle="pill" data-bs-target="#v-pills-founder" type="button" role="tab" aria-controls="v-pills-founder" aria-selected="true">
-                            <i class="fas fa-user-tie me-2"></i> Founder Settings
-                        </button> --}}
-                        <button class="nav-link active" id="v-pills-app-tab" data-bs-toggle="pill" data-bs-target="#v-pills-app" type="button" role="tab" aria-controls="v-pills-app" aria-selected="true">
+                        <button class="nav-link active" id="v-pills-referral-tab" data-bs-toggle="pill" data-bs-target="#v-pills-referral" type="button" role="tab" aria-controls="v-pills-referral" aria-selected="true">
+                            <i class="fas fa-user-tie me-2"></i> Referral Bonus
+                        </button>
+                        <button class="nav-link" id="v-pills-app-tab" data-bs-toggle="pill" data-bs-target="#v-pills-app" type="button" role="tab" aria-controls="v-pills-app" aria-selected="true">
                             <i class="fas fa-cog me-2"></i> App Settings
                         </button>
                     </div>
@@ -30,31 +30,24 @@
                 <div class="col-md-8">
                     <div class="tab-content" id="v-pills-tabContent">
 
-                        <!-- Founder Settings Tab -->
-                        {{-- <div class="tab-pane fade show active" id="v-pills-founder" role="tabpanel" aria-labelledby="v-pills-founder-tab">
+                        <div class="tab-pane fade show active" id="v-pills-referral" role="tabpanel" aria-labelledby="v-pills-referral-tab">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title"><i class="fas fa-user-tie me-2"></i> Founder Settings</h5>
+                                    <h5 class="card-title"><i class="fas fa-gift me-2"></i>Referral Bonus Settings</h5>
 
                                     <div class="mb-3">
-                                        <label for="total_founder">Total Founder Slots</label>
-                                        <input type="number" id="total_founder" name="total_founder"
-                                            value="{{ old('total_founder', $generalSettings->total_founder) }}"
-                                            required class="form-control">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="available_founder_slot">Available Founder Slots</label>
-                                        <input type="number" id="available_founder_slot" name="available_founder_slot"
-                                            value="{{ old('available_founder_slot', $generalSettings->available_founder_slot) }}"
-                                            required class="form-control">
+                                        <label for="referral_bonus">Referral Bonus ($)</label>
+                                        <input type="number" step="0.01" id="referral_bonus" name="referral_bonus"
+                                            value="{{ old('referral_bonus', $generalSettings->referral_bonus) }}"
+                                            class="form-control" required>
                                     </div>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
+
 
                         <!-- App Settings Tab -->
-                        <div class="tab-pane fade  show active" id="v-pills-app" role="tabpanel" aria-labelledby="v-pills-app-tab">
+                        <div class="tab-pane fade" id="v-pills-app" role="tabpanel" aria-labelledby="v-pills-app-tab">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title"><i class="fas fa-cog me-2"></i> App Settings</h5>
@@ -71,7 +64,7 @@
                                         <input type="file" id="favicon" name="favicon" class="form-control">
                                         @if(isset($generalSettings->favicon))
                                             <div class="mt-2">
-                                                <img src="{{ asset('storage/' . $generalSettings->favicon) }}"
+                                                <img src="{{ asset('public/storage/' . $generalSettings->favicon) }}"
                                                     alt="Current Favicon"
                                                     style="max-width: 32px; max-height: 32px;">
                                                 <span class="ms-2">Current favicon</span>
@@ -84,7 +77,7 @@
                                         <input type="file" id="logo" name="logo" class="form-control">
                                         @if(isset($generalSettings->logo))
                                             <div class="mt-2">
-                                                <img src="{{ asset('storage/' . $generalSettings->logo) }}"
+                                                <img src="{{ asset('public/storage/' . $generalSettings->logo) }}"
                                                     alt="Current Logo"
                                                     style="max-width: 300px; max-height: 45px;">
                                                 <span class="ms-2">Current logo</span>

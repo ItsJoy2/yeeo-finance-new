@@ -93,6 +93,26 @@
     <script src="{{ asset('assets/user/js/misc.js') }}"></script>
     <script src="{{ asset('assets/user/js/settings.js') }}"></script>
     <script src="{{ asset('assets/user/js/todolist.js') }}"></script>
+
+    <!-- ... আপনার আগের HTML ... -->
+
+    <script>
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const referCode = getQueryParam('ref');
+        if (referCode) {
+        const referInput = document.querySelector('input[name="referCode"]');
+        if (referInput) {
+            referInput.value = referCode;
+        }
+        }
+    });
+    </script>
+
     <!-- endinject -->
   </body>
 </html>
