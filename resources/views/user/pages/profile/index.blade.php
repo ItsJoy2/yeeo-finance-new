@@ -27,19 +27,25 @@
                     @csrf
 
                     <div class="text-center position-relative mb-4">
-        <label for="profileImageInput" class="cursor-pointer position-relative d-inline-block">
-            @if($user->image)
-                <img src="{{ $user->image ? asset('storage/' . $user->image) : asset('profile.png') }}" alt="Profile Image" id="profilePreview" class="rounded-circle shadow bg-secondary border {{ $user->is_active == 1 ? 'border-success' : 'border-secondary' }}" width="130" height="130" style="object-fit: cover; border-width: 3px !important;" onerror="this.src='{{ url('assets/profile-icon.png') }}'">
+                        <label for="profileImageInput" class="cursor-pointer position-relative d-inline-block">
+                            <img
+                                src="{{ $user->image ? asset('storage/' . $user->image) : url('public/assets/profile-icon.png') }}"
+                                alt="Profile Image"
+                                id="profilePreview"
+                                class="rounded-circle shadow bg-secondary border {{ $user->is_active == 1 ? 'border-success' : 'border-secondary' }}"
+                                width="130"
+                                height="130"
+                                style="object-fit: cover; border-width: 3px !important;"
+                                onerror="this.src='{{ url('public/assets/profile-icon.png') }}'"
+                            >
+                            <div class="position-absolute bg-dark text-white rounded-circle" style="bottom: 0; right: 0; padding: 5px 8px; cursor: pointer;">
+                                <i class="mdi mdi-camera"></i>
+                            </div>
+                        </label>
+                        <input type="file" name="image" id="profileImageInput" class="d-none" accept="image/*">
+                        @error('image') <small class="text-danger d-block">{{ $message }}</small> @enderror
+                    </div>
 
-
-            @endif
-            <div class="position-absolute bg-dark text-white rounded-circle" style="bottom: 0; right: 0; padding: 5px 8px; cursor: pointer;">
-                <i class="mdi mdi-camera"></i>
-            </div>
-        </label>
-        <input type="file" name="image" id="profileImageInput" class="d-none" accept="image/*">
-        @error('image') <small class="text-danger d-block">{{ $message }}</small> @enderror
-    </div>
 
 
                     {{-- Referral Link --}}
