@@ -158,15 +158,23 @@ class AuthServices
         // Send email verification
         // $user->notify(new VerifyEmail());
 
-        if ($request->expectsJson()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Account created successfully. Please verify your email.'
-            ]);
-        }
+        $user->email_verified_at = now();
+        $user->save();
 
-        return redirect()->route('login')
-            ->with('success', 'Account created successfully! Please check your email to verify your account.');
+
+        // if ($request->expectsJson()) {
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => 'Account created successfully. Please verify your email.'
+        //     ]);
+        // }
+
+        // return redirect()->route('login')
+        //     ->with('success', 'Account created successfully! Please check your email to verify your account.');
+
+        Auth::login($user);
+
+        return redirect()->route('user.dashboard')->with('success', 'Account created successfully! Please check your email to verify your account.');
     }
 
     public function logout(Request $request)

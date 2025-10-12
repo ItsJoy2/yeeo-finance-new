@@ -383,7 +383,17 @@
                                 </div>
                                 <div class="mr-auto text-sm-right pt-2 pt-sm-0">
                                     <p class="text-muted">Amount: ${{ number_format($transaction->amount, 2) }}</p>
-                                    <p class="text-muted mb-0"> {{ $transaction->details ?? '-' }}</p>
+                                    @php
+                                        $details = $transaction->details ?? '-';
+                                        if ($transaction->remark === 'withdrawal' && strlen($details) > 20) {
+                                            $start = substr($details, 0, 10);
+                                            $end = substr($details, -10);
+                                            $details = $start . '.....' . $end;
+                                        }
+                                    @endphp
+
+                                    <p class="text-muted mb-0">{{ $details }}</p>
+
                                 </div>
                                 </div>
                             </div>

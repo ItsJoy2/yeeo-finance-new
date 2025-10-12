@@ -130,7 +130,7 @@ class PackagesController extends Controller
                         'remark' => "trade_bonus",
                         'type' => '+',
                         'status' => 'Paid',
-                        'details' => "Referral bonus from {$user->name}'s investment",
+                        'details' => "Referral bonus from {$user->email}'s investment",
                         'charge' => 0,
                     ]);
                 }

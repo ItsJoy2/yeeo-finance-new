@@ -106,7 +106,7 @@ class UserController extends Controller
                         'remark'         => 'activation_bonus',
                         'type'           => '+',
                         'status'         => 'Paid',
-                        'details'        => "Referral bonus from user ID: {$user->id} activation",
+                        'details'        => "Referral bonus from user: {$user->email} activation",
                         'charge'         => 0,
                     ]);
                 }

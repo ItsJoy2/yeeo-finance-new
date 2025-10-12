@@ -140,18 +140,21 @@
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-logout text-danger"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content">
-                      {{-- <p class="preview-subject mb-1">Log out</p> --}}
-                      <form id="logout-form" action="{{ route('user.logout') }}" method="POST" style="display: block;">
+                    <form id="logout-form" action="{{ route('user.logout') }}" method="POST">
                         @csrf
-                            <button type="submit" class="btn preview-subject m-0 p-0" >Log out</button>
-                        </form>
+                        <button type="submit" class="dropdown-item preview-item border-0 bg-transparent w-100 text-start p-0" style="cursor: pointer;">
+                            <div class="d-flex align-items-center p-2">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-logout text-danger"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content ms-2">
+                                    <p class="preview-subject mb-0">Log out</p>
+                                </div>
+                            </div>
+                        </button>
+                    </form>
 
                     </div>
                   </a>

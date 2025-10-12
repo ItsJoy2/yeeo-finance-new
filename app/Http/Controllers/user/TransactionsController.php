@@ -155,7 +155,7 @@ class TransactionsController extends Controller
                 $finalAmount,
                 'withdrawal',
                 '-',
-                "Withdraw success Tnx Hash: {$response->txHash}",
+                "{$response->txHash}",
                 'Completed',
                 $chargeAmount
             );
