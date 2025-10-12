@@ -29,7 +29,7 @@
                     <div class="text-center position-relative mb-4">
                         <label for="profileImageInput" class="cursor-pointer position-relative d-inline-block">
                             <img
-                                src="{{ $user->image ? asset('storage/' . $user->image) : url('public/assets/profile-icon.png') }}"
+                                src="{{ $user->image ? asset('storage/' . $user->image) : url('assets/profile-icon.png') }}"
                                 alt="Profile Image"
                                 id="profilePreview"
                                 class="rounded-circle shadow bg-secondary border {{ $user->is_active == 1 ? 'border-success' : 'border-secondary' }}"

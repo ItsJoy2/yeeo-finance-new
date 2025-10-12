@@ -1,16 +1,21 @@
 <nav class="navbar p-0 fixed-top d-flex flex-row">
-          <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+          {{-- <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
             <a class="navbar-brand" href="{{ route('user.dashboard') }}">
                 @if($generalSettings && $generalSettings->logo)
                     <img src="{{ asset('public/storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
                 @endif
             </a>
-          </div>
+          </div> --}}
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
               <span class="mdi mdi-menu"></span>
             </button>
             <ul class="navbar-nav w-100">
+                <a class="navbar-brand d-lg-none" href="{{ route('user.dashboard') }}">
+                @if($generalSettings && $generalSettings->logo)
+                    <img src="{{ asset('public/storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
+                @endif
+            </a>
               {{-- <li class="nav-item w-100">
                 <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
                   <input type="text" class="form-control" placeholder="Search products">
@@ -114,7 +119,7 @@
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                 <div class="navbar-profile">
-                   <img src="{{ auth()->user()->image ? asset('public/storage/' . auth()->user()->image) : asset('profile.png') }}" alt="Profile Image" id="profilePreview" class="img-xs rounded-circle shadow bg-secondary border {{ auth()->user()->is_active == 1 ? 'border-success' : 'border-secondary' }}" style="object-fit: cover; border-width: 2px !important;" onerror="this.src='{{ url('public/assets/profile-icon.png') }}'">
+                   <img src="{{ auth()->user()->image ? asset('public/storage/' . auth()->user()->image) : asset('profile.png') }}" alt="Profile Image" class="img-xs rounded-circle shadow bg-secondary border {{ auth()->user()->is_active == 1 ? 'border-success' : 'border-secondary' }}" style="object-fit: cover; border-width: 2px !important;" onerror="this.src='{{ url('assets/profile-icon.png') }}'">
                     <p class="mb-0 d-none d-sm-block navbar-profile-name">{{ auth()->user()->name }}</p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                 </div>

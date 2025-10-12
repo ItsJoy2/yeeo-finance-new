@@ -80,10 +80,12 @@ class PackagesController extends Controller
                 : $startDate->copy()->addMonth();
 
             $endDate = null;
-            if ($package->duration > 0) {
+            if ((int)$package->duration > 0) {
+                $duration = (int) $package->duration;
+
                 $endDate = $package->return_type === 'daily'
-                    ? $startDate->copy()->addDays($package->duration)
-                    : $startDate->copy()->addMonths($package->duration);
+                    ? $startDate->copy()->addDays($duration)
+                    : $startDate->copy()->addMonths($duration);
             }
 
             Investor::create([
