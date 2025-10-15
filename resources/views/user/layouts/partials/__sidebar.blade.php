@@ -137,6 +137,22 @@
               <span class="menu-title">Transactions</span>
             </a>
           </li>
+                   <li class="nav-item menu-items">
+            <a class="nav-link" href="#">
+              <span class="menu-icon">
+                <i class="mdi mdi-square-inc-cash"></i>
+              </span>
+              <span class="menu-title">Buy YEEO</span>
+            </a>
+          </li>
+        <li class="nav-item menu-items">
+            <a class="nav-link" href="https://www.coingecko.com/en/coins/yee-token">
+              <span class="menu-icon">
+                <i class="mdi mdi-square-inc-cash"></i>
+              </span>
+              <span class="menu-title">CoinGecko</span>
+            </a>
+          </li>
          {{-- <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#tickets" aria-expanded="false" aria-controls="teamwork">
               <span class="menu-icon">

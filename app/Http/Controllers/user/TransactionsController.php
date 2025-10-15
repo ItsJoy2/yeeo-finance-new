@@ -240,7 +240,7 @@ class TransactionsController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', "Transfer successful to  $sender->email");
+            return redirect()->back()->with('success', "Transfer successful to  $receiver->email");
 
         } catch (\Exception $e) {
             DB::rollBack();
