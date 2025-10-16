@@ -6,7 +6,7 @@
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('admin.dashboard') }}" class="logo">
                 @if($generalSettings && $generalSettings->logo)
-                    <img src="{{ asset('public/storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="50">
+                    <img src="{{ asset('public/storage/' . $generalSettings->logo) }}" alt="{{ $generalSettings->app_name ?? 'App Name' }}" class="navbar-brand" height="30">
                 @endif
             </a>
             <div class="nav-toggle">
@@ -171,7 +171,7 @@
                         <ul class="nav nav-collapse">
                             <li clsas="{{ Str::contains(request()->path(), 'settings') ? 'active' : '' }}"><a href="{{ route('admin.activation-settings.edit') }}"><span class="sub-item">Activation Setting</span></a></li>
                             <li><a href="{{ route('admin.withdraw.settings') }}"><span class="sub-item">Withdraws Settings</span></a></li>
-                            {{-- <li><a href="/founder-bonus"><span class="sub-item">Founder Bonus</span></a></li> --}}
+                            <li><a href="{{ route('admin.transfer.settings') }}"><span class="sub-item">Transfer Settings</span></a></li>
                             <li><a href="{{ route('admin.general.settings') }}"><span class="sub-item">General Settings</span></a></li>
                         </ul>
                     </div>

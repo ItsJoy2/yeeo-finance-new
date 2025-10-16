@@ -11,6 +11,7 @@ class Investor extends Model
         'package_id',
         'amount',
         'expected_return',
+        'referral_bonus',
         'return_type',
         'duration',
         'start_date',

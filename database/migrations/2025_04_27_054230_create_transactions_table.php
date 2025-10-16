@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('transaction_id');
             $table->unsignedBigInteger('user_id');
-            $table->decimal('amount', 15, 2);
-              $table->decimal('charge', 15, 2)->default(0);
+            $table->decimal('amount', 15, 8);
+            $table->decimal('charge', 15, 8)->default(0);
             $table->enum('remark',['deposit','withdrawal','transfer','account_activation', 'activation_bonus', 'trade_bonus','pnl_bonus', 'daily_pnl', 'package_purchased', 'rank_bonus']);
             $table->enum('type',['-','+']);
             $table->enum('status',['Pending','Paid','Completed','Rejected']);

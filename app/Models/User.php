@@ -27,6 +27,7 @@ class User extends Authenticatable
         'refer_by',
         'refer_code',
         'is_active',
+        'last_activated_at',
         'is_block',
         'password',
     ];
@@ -36,6 +37,7 @@ class User extends Authenticatable
         'remember_token'
     ];
     protected $casts = [
+        'last_activated_at' => 'datetime',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
@@ -45,7 +47,10 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'refer_by');
     }
 
-
+    public function hasReceivedActivationBonus(): bool
+    {
+        return $this->last_activated_at !== null;
+    }
     public function referrals(): HasMany
     {
         return $this->hasMany(User::class, 'refer_by');

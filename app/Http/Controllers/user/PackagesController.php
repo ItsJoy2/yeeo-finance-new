@@ -88,11 +88,12 @@ class PackagesController extends Controller
                     : $startDate->copy()->addMonths($duration);
             }
 
-            Investor::create([
+            $data = Investor::create([
                 'user_id' => $user->id,
                 'package_id' => $package->id,
                 'amount' => $amount,
                 'expected_return' => $expectedReturn,
+                'referral_bonus' => $package->pnl_bonus,
                 'return_type' => $package->return_type,
                 'duration' => $package->duration,
                 'start_date' => $startDate->toDateString(),
@@ -101,7 +102,6 @@ class PackagesController extends Controller
                 'received_count' => 0,
                 'status' => 'running',
             ]);
-
             $user->decrement('funding_wallet', $amount);
 
             Transactions::create([

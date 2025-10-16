@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 20, 8);
             $table->decimal('expected_return', 20, 8);
+            $table->decimal('referral_bonus', 8, 2)->nullable();
             $table->enum('return_type', ['daily', 'monthly']);
             $table->integer('duration')->default(0);
             $table->date('start_date');

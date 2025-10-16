@@ -12,6 +12,7 @@ class ActivationSetting extends Model
         'activation_amount',
         'activation_bonus',
         'referral_bonus',
+        'activation_duration_months',
     ];
 }
 

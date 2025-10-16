@@ -58,6 +58,7 @@ class ActivationSettingController extends Controller
             'activation_amount' => 'required|numeric|min:0',
             'activation_bonus' => 'required|numeric|min:0',
             'referral_bonus' => 'required|numeric|min:0',
+            'activation_duration_months' => 'required|numeric|min:1',
         ]);
 
         $setting = ActivationSetting::first();
@@ -65,7 +66,7 @@ class ActivationSettingController extends Controller
             $setting = new ActivationSetting();
         }
 
-        $setting->update($request->only(['activation_amount', 'activation_bonus', 'referral_bonus']));
+        $setting->update($request->only(['activation_amount', 'activation_bonus', 'referral_bonus', 'activation_duration_months']));
 
         return redirect()->back()->with('success', 'Settings updated successfully.');
     }

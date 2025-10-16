@@ -24,6 +24,7 @@
                             <th> Trade Amount</th>
                             <th> PNL(roi) </th>
                             <th> Duration </th>
+                            <th> Received </th>
                             <th> Status</th>
                           </tr>
                         </thead>
@@ -37,6 +38,9 @@
                             <td>
                                 {{ $investor->duration }}
                                 {{ $investor->return_type === 'daily' ? 'Days' : 'Months' }}
+                            </td>
+                            <td>
+                                {{ $investor->received_count }}
                             </td>
                             <td>
                                 <span   span class="badge badge-{{

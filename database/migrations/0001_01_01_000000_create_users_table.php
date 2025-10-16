@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('refer_code', 6)->unique();
             $table->foreignId('refer_by')->nullable()->constrained('users')->nullOnDelete();
             $table->boolean('is_active')->default(false);
+            $table->timestamp('last_activated_at')->nullable();
             $table->boolean('is_block')->default(false);
             $table->boolean('kyc_status')->default(false);
             $table->timestamp('email_verified_at')->nullable();

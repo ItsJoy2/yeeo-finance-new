@@ -14,6 +14,7 @@ return new class extends Migration
             $table->decimal('activation_amount', 20, 2)->default(0);
             $table->decimal('activation_bonus', 20, 5)->default(0);
             $table->decimal('referral_bonus', 20, 2)->default(0);
+            $table->integer('activation_duration_months')->default(12);
             $table->timestamps();
         });
 

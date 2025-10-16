@@ -12,9 +12,9 @@ use App\Http\Controllers\admin\AdminTicketController;
 use App\Http\Controllers\admin\TransactionsController;
 use App\Http\Controllers\admin\AdminDashboardController;
 use App\Http\Controllers\admin\GeneralSettingsController;
+use App\Http\Controllers\admin\TransferSettingsController;
 use App\Http\Controllers\admin\WithdrawSettingsController;
 use App\Http\Controllers\admin\ActivationSettingController;
-use App\Http\Controllers\admin\ReferralsSettingsController;
 use App\Http\Controllers\admin\AuthenticatedSessionController;
 
 Route::get('/', function () {
@@ -73,12 +73,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('cron', [CronController::class, 'view'])->name('cron');
 
 
-    Route::get('withdraws/settings', [WithdrawSettingsController::class, 'index'])->name('admin.withdraw.settings');
-    Route::post('withdraws/settings', [WithdrawSettingsController::class, 'update'])->name('admin.withdraw.settings.update');
+    Route::get('withdraw-settings', [WithdrawSettingsController::class, 'index'])->name('admin.withdraw.settings');
+    Route::post('withdraw-settings', [WithdrawSettingsController::class, 'update'])->name('admin.withdraw.settings.update');
 
 
-    Route::get('ReferralsSettings',[ReferralsSettingsController::class,'index'])->name('ReferralsSettings');
-    Route::post('ReferralsSettings',[ReferralsSettingsController::class,'update'])->name('admin.referral.settings.update');
+    Route::get('transfer-settings',[TransferSettingsController::class,'index'])->name('admin.transfer.settings');
+    Route::post('transfer-settings',[TransferSettingsController::class,'update'])->name('admin.transfer.settings.update');
 
 
     //deposit

@@ -43,27 +43,31 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        if ($user->is_active) {
-            return redirect()->back()->with('error', 'Your account is already active.');
-        }
-
         $settings = ActivationSetting::first();
 
         if (!$settings || !$settings->activation_amount) {
             return redirect()->back()->with('error', 'Activation settings are not configured.');
         }
 
-        $activationAmount      = $settings->activation_amount;
-        $activationBonus       = $settings->activation_bonus ?? 0;
-        $referralPercentage    = $settings->referral_bonus ?? 0;
-        $referralBonus         = ($activationAmount * $referralPercentage) / 100;
+        $activationAmount     = $settings->activation_amount;
+        $activationBonus      = $settings->activation_bonus ?? 0;
+        $referralPercentage   = $settings->referral_bonus ?? 0;
+        $referralBonus        = ($activationAmount * $referralPercentage) / 100;
 
+        $isFirstActivation = !$user->hasReceivedActivationBonus();
+
+        if ($user->is_active && $user->last_activated_at) {
+            $expirationDate = $user->last_activated_at->copy()->addMonths($settings->activation_duration_months);
+            if (now()->lessThan($expirationDate)) {
+                return redirect()->back()->with('error', 'Your account is already active.');
+            }
+        }
 
         if ($user->funding_wallet < $activationAmount) {
             return redirect()->back()->with('error', 'Insufficient balance in your funding wallet.');
         }
 
-        DB::transaction(function () use ($user, $activationAmount, $activationBonus, $referralBonus) {
+        DB::transaction(function () use ($user, $activationAmount, $activationBonus, $referralBonus, $isFirstActivation) {
             $user->decrement('funding_wallet', $activationAmount);
 
             Transactions::create([
@@ -77,9 +81,12 @@ class UserController extends Controller
                 'charge'         => 0,
             ]);
 
-            $user->update(['is_active' => true]);
+            $user->update([
+                'is_active'         => true,
+                'last_activated_at' => now(),
+            ]);
 
-            if ($activationBonus > 0) {
+            if ($isFirstActivation && $activationBonus > 0) {
                 $user->increment('token_wallet', $activationBonus);
 
                 Transactions::create([
@@ -115,6 +122,7 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Your account has been successfully activated.');
     }
+
 
     public function directReferrals(Request $request)
     {

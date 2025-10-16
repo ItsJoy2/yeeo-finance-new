@@ -37,10 +37,12 @@ class DailyBonus extends Command
                     continue;
                 }
                 // main user bonus
-                $dailyReturn = round(
-                    ($investment->amount * ($package->pnl_return / 100)),
-                    8
-                );
+                // $dailyReturn = round(
+                //     ($investment->amount * ($package->pnl_return / 100)),
+                //     8
+                // );
+
+                $dailyReturn = round($investment->expected_return, 8);
 
                 $user->increment('spot_wallet', $dailyReturn);
 
@@ -51,7 +53,7 @@ class DailyBonus extends Command
                     'remark' => "daily_pnl",
                     'type' => '+',
                     'status' => 'Paid',
-                    'details' => "Daily Bonus from investment Plan: {$package->plan_name}",
+                    'details' => ucfirst($investment->return_type) . " Bonus from investment Plan: {$package->plan_name}",
                     'charge' => 0,
                 ]);
 
@@ -60,7 +62,7 @@ class DailyBonus extends Command
                     $referrer = User::find($user->refer_by);
 
                     if ($referrer) {
-                        $referral_bonus = round($dailyReturn * ($package->pnl_bonus / 100), 8);
+                        $referral_bonus = round($dailyReturn * ($investment->referral_bonus / 100), 8);
                         $referrer->increment('spot_wallet', $referral_bonus);
 
                         Transactions::create([
@@ -78,10 +80,10 @@ class DailyBonus extends Command
 
                 $investment->received_count += 1;
 
-                if ($package->duration > 0 && $investment->received_count >= $package->duration) {
+                if ($package->duration > 0 && $investment->received_count >= $investment->duration) {
                     $investment->status = 'completed';
                 } else {
-                    $investment->next_return_date = $package->return_type === 'daily'
+                    $investment->next_return_date = $investment->return_type === 'daily'
                         ? Carbon::parse($investment->next_return_date)->addDay()
                         : Carbon::parse($investment->next_return_date)->addMonth();
                 }
@@ -100,7 +102,6 @@ class DailyBonus extends Command
         $this->info('Returns distributed successfully.');
     }
 
-    // ✅ Laravel 12 e schedule function command class e define korte hoy
     public function schedule(Schedule $schedule): void
     {
         $schedule->daily();

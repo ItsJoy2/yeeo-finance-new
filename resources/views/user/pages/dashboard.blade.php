@@ -30,6 +30,23 @@
 @endauth
 
             <div class="row">
+              <div class="col-xl-6 grid-margin stretch-card">
+                <div class="card ">
+                    <script src="https://widgets.coingecko.com/gecko-coin-price-chart-widget.js"></script>
+                        <gecko-coin-price-chart-widget locale="en" dark-mode="true" outlined="true" coin-id="harmony" initial-currency="usd"></gecko-coin-price-chart-widget>
+                </div>
+              </div>
+              <div class="col-xl-6 grid-margin stretch-card">
+                <div class="card ">
+                    <script src="https://widgets.coingecko.com/gecko-coin-price-chart-widget.js"></script>
+                    <gecko-coin-price-chart-widget locale="en" dark-mode="true" outlined="true" coin-id="polkadot" initial-currency="usd"></gecko-coin-price-chart-widget>
+                </div>
+              </div>
+            </div>
+
+{{-- wallet card section  --}}
+
+            <div class="row">
               <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
@@ -529,6 +546,6 @@
         };
 
         window.transactionTotalAmount = {{ $dashboard['totalDeposit'] + $dashboard['totalWithdraw'] + $dashboard['totalTransfer'] }};
-    </script>
+    </>
 
 @endpush
