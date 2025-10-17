@@ -28,7 +28,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     //all user
     Route::get('users', [UsersController::class, 'index'])->name('admin.users.index');
     Route::post('users/update', [UsersController::class, 'update'])->name('admin.users.update');
-    Route::get('/users/{id}', [UsersController::class, 'show'])->name('admin.users.show');
+    Route::get('users/{id}', [UsersController::class, 'show'])->name('admin.users.show');
+    Route::post('users/wallet-update', [UsersController::class, 'updateWallet'])->name('admin.users.wallet.update');
+
 
     // Plans
     Route::resource('all-plan', PlansController::class)->names([

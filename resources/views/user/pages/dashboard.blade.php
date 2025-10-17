@@ -33,13 +33,13 @@
               <div class="col-xl-6 grid-margin stretch-card">
                 <div class="card ">
                     <script src="https://widgets.coingecko.com/gecko-coin-price-chart-widget.js"></script>
-                        <gecko-coin-price-chart-widget locale="en" dark-mode="true" outlined="true" coin-id="harmony" initial-currency="usd"></gecko-coin-price-chart-widget>
+                        <gecko-coin-price-chart-widget locale="en" dark-mode="true" outlined="true" coin-id="harmony" initial-currency="usd" height="200"></gecko-coin-price-chart-widget>
                 </div>
               </div>
               <div class="col-xl-6 grid-margin stretch-card">
                 <div class="card ">
                     <script src="https://widgets.coingecko.com/gecko-coin-price-chart-widget.js"></script>
-                    <gecko-coin-price-chart-widget locale="en" dark-mode="true" outlined="true" coin-id="polkadot" initial-currency="usd"></gecko-coin-price-chart-widget>
+                    <gecko-coin-price-chart-widget locale="en" dark-mode="true" outlined="true" coin-id="polkadot" initial-currency="usd" height="200"></gecko-coin-price-chart-widget>
                 </div>
               </div>
             </div>
@@ -183,11 +183,32 @@
                       </div>
                       <div class="col-3">
                         <div class="icon icon-box-danger ">
-                          <span class="mdi mdi-swap-horizontal icon-item text-danger"></span>
+                          <span class="mdi mdi-swap-horizontal icon-item text-primary"></span>
                         </div>
                       </div>
                     </div>
                     <h6 class="text-muted font-weight-normal">Total Transfer</h6>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-9">
+                        <div class="d-flex align-items-center align-self-start">
+                          <h3 class="mb-0">${{ number_format($dashboard['totalExpectedReturn'], 3) }}</h3>
+                          {{-- <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p> --}}
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="icon icon-box-danger ">
+                          <span class="mdi mdi-chart-line icon-item text-success"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <h6 class="text-muted font-weight-normal">Current PNL</h6>
                   </div>
                 </div>
               </div>
@@ -204,7 +225,7 @@
                       </div>
                       <div class="col-3">
                         <div class="icon icon-box-danger ">
-                          <span class="mdi mdi-swap-horizontal icon-item text-danger"></span>
+                          <span class="mdi mdi-trophy icon-item text-warning"></span>
                         </div>
                       </div>
                     </div>

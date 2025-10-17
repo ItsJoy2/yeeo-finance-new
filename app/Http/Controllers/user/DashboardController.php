@@ -81,6 +81,8 @@ class DashboardController extends Controller
 
             $withdrawsData = Transactions::where('user_id', $user->id)->where('remark', 'withdrawal')->where('created_at', '>=', $startDate)->selectRaw('DATE(created_at) as date, SUM(amount) as total')->groupBy('date')->orderBy('date')->get();
 
+            $totalExpectedReturn = Investor::where('user_id', $user->id)->where('status', 'running')->sum('expected_return');
+
             $dates = collect(range(0, 29))->map(function ($days) use ($startDate)
             { return $startDate->copy()->addDays($days)->format('Y-m-d');
             })->toArray();
@@ -125,6 +127,7 @@ class DashboardController extends Controller
             'transactions' => $transactions,
             'activeReferrals' => $activeReferrals,
             'inactiveReferrals' => $inactiveReferrals,
+            'totalExpectedReturn' => $totalExpectedReturn,
 
          ];
 

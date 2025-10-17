@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Transactions;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UsersController extends Controller
 {
@@ -67,6 +68,37 @@ class UsersController extends Controller
         $user->save();
 
         return redirect()->back()->with('success', 'User updated successfully!');
+    }
+
+    public function updateWallet(Request $request)
+    {
+        $request->validate([
+            'user_id'     => 'required|exists:users,id',
+            'wallet_type' => 'required|in:funding_wallet,spot_wallet,token_wallet',
+            'action_type' => 'required|in:add,subtract',
+            'amount'      => 'required|numeric|min:0.01',
+        ]);
+
+        $user = User::findOrFail($request->user_id);
+        $wallet = $request->wallet_type;
+        $amount = $request->amount;
+
+        if (!in_array($wallet, ['funding_wallet', 'spot_wallet', 'token_wallet'])) {
+            return redirect()->back()->with('error', 'Invalid wallet type selected.');
+        }
+
+        if ($request->action_type === 'add') {
+            $user->$wallet += $amount;
+        } elseif ($request->action_type === 'subtract') {
+            if ($user->$wallet < $amount) {
+                return redirect()->back()->with('error', 'Insufficient balance in selected wallet.');
+            }
+            $user->$wallet -= $amount;
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'Wallet updated successfully.');
     }
 
 }
