@@ -43,6 +43,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'destroy' => 'admin.plans.destroy'
     ]);
 
+    // all investor
+    Route::get('investors', [PlansController::class, 'allInvestment'])->name('admin.investment');
+
     // withdraw
     Route::resource('withdraw', WithdrawController::class)->names([
         'index' => 'admin.withdraw.index',

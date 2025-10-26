@@ -45,8 +45,13 @@
                     </a>
                 </li>
 
-
-
+                {{-- All Investors  --}}
+                <li class="nav-item {{ Str::contains(request()->path(), 'investors') ? 'active' : '' }}">
+                    <a href="{{ route('admin.investment') }}">
+                        <i class="fas fa-chart-line"></i>
+                        <p>All Investments</p>
+                    </a>
+                </li>
 
                 <!-- Plans -->
                 <li class="nav-item {{ Str::contains(request()->path(), 'admin.plans.index') ? 'active' : '' }}">
@@ -87,8 +92,6 @@
                         @endif
                     </a>
                 </li>
-
-
 
                 <!-- Transactions -->
                 <li class="nav-item {{ Str::contains(request()->path(), 'transactions') ? 'active' : '' }}">

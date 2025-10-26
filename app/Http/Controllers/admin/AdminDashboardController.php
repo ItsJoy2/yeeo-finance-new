@@ -8,6 +8,7 @@ use App\Models\Transactions;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
 use App\Models\Founder;
+use App\Models\Investor;
 use App\Models\withdraw_settings;
 use Illuminate\Support\Facades\Cache;
 
@@ -42,9 +43,10 @@ class AdminDashboardController extends Controller
                 'withdrawChargeAmount' => $withdrawChargeAmount,
 
                 // Investment
-                // 'totalInvestmentAmount' =>Founder::sum('investment'),
-                // 'runningInvestmentAmount' => Founder::where('status', 1)->sum('investment'),
-                // 'canceledInvestmentAmount' => Founder::where('status', 0)->sum('investment'),
+                'totalInvestmentAmount'   => Investor::sum('amount'),
+                'runningInvestmentAmount' => Investor::where('status', 'running')->sum('amount'),
+                'canceledInvestmentAmount' => Investor::where('status', 'cancelled')->sum('amount'),
+                'expiredInvestmentAmount' => Investor::where('status', 'completed')->sum('amount'),
 
 
 

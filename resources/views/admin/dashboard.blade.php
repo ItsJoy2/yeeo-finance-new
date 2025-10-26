@@ -78,17 +78,17 @@
         </div>
 
         {{-- Investment Section --}}
-        {{-- <div class="card shadow-sm mb-4 border-0">
+        <div class="card shadow-sm mb-4 border-0">
             <div class="card-body">
-                <h5 class="card-title fw-bold mb-4">Investments</h5>
+                <h5 class="card-title fw-bold mb-4">Investment Details</h5>
                 <div class="row g-4">
                     <x-dashboard.stat-card icon="fas fa-coins" value="${{ number_format($dashboardData['totalInvestmentAmount'], 2) }}" label="Total Investment" bg="primary" />
-                    <x-dashboard.stat-card icon="fas fa-play-circle" value="${{ number_format($dashboardData['runningInvestmentAmount'], 2) }}" label="Running Investment" bg="success" />
+                    <x-dashboard.stat-card icon="fas fa-play-circle" value="${{ number_format($dashboardData['runningInvestmentAmount'], 2) }}" label="Running Investment" bg="warning" />
                     <x-dashboard.stat-card icon="fas fa-ban" value="${{ number_format($dashboardData['canceledInvestmentAmount'], 2) }}" label="Canceled Investment" bg="danger" />
-                    <x-dashboard.stat-card icon="fas fa-hourglass-end" value="$0" label="Expired Investment" bg="warning" />
+                    <x-dashboard.stat-card icon="fas fa-hourglass-end" value="${{ number_format($dashboardData['expiredInvestmentAmount'], 2) }}" label="Expired Investment" bg="success" />
                 </div>
             </div>
-        </div> --}}
+        </div>
 
 
     </div>

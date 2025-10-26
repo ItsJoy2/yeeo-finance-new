@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Models\Package;
 use App\Models\Category;
+use App\Models\Investor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
@@ -165,6 +166,26 @@ class PlansController extends Controller
                 Cache::forget($key);
             }
         }
+    }
+
+
+    public function allInvestment(Request $request)
+    {
+        $query = Investor::with(['user', 'package']);
+
+            if ($request->filled('email')) {
+                $query->whereHas('user', function ($q) use ($request) {
+                    $q->where('email', 'like', "%{$request->email}%");
+                });
+            }
+
+            if ($request->filled('status')) {
+                $query->where('status', $request->status);
+            }
+
+            $investors = $query->latest()->paginate(15);
+
+            return view('admin.pages.investment.index', compact('investors'));
     }
 
 }

@@ -36,7 +36,7 @@
                                     <h5 class="card-title"><i class="fas fa-gift me-2"></i>Referral Bonus Settings</h5>
 
                                     <div class="mb-3">
-                                        <label for="referral_bonus">Referral Bonus ($) <i class="fas fa-info-circle text-info"  data-bs-toggle="tooltip" data-bs-placement="right" title="Referral Bonus received from downline user invest in plan."> </i> </label>
+                                        <label for="referral_bonus">Referral Bonus (%) <i class="fas fa-info-circle text-info"  data-bs-toggle="tooltip" data-bs-placement="right" title="Referral Bonus received from downline user invest in plan."> </i> </label>
                                         <input type="number" step="0.01" id="referral_bonus" name="referral_bonus"
                                             value="{{ old('referral_bonus', $generalSettings->referral_bonus) }}"
                                             class="form-control" required>
