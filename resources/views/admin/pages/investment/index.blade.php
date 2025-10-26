@@ -60,7 +60,10 @@
                         <td>${{ number_format($investor->amount, 2) }}</td>
                         <td>${{ number_format($investor->expected_return, 2) }}</td>
                         <td>{{ ucfirst($investor->return_type) }}</td>
-                        <td>{{ $investor->duration }} days</td>
+                        <td>
+                            {{ $investor->duration }}
+                            {{ $investor->return_type === 'daily' ? 'Days' : 'Months' }}
+                        </td>
                         <td>{{ $investor->start_date?->format('Y-m-d') }}</td>
                         <td>{{ $investor->end_date?->format('Y-m-d') }}</td>
                         <td>
